@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Services — NORTH&amp;HALE</title>
+  <meta name="theme-color" content="#050505" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23f5f4f1'/><text x='16' y='22' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='18' fill='%23050505'>N</text></svg>" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body class="bg-bg text-ink antialiased">
+  <div class="mesh-bg"></div>
+  <div class="grain"></div>
+
+  <nav class="nav-pill" aria-label="Primary">
+    <a class="nav-mark" href="index.html" data-nav>NORTH<span class="text-faint">&amp;</span>HALE</a>
+    <div class="nav-links">
+      <a href="index.html"    data-nav data-i18n="nav.shop">Shop</a>
+      <a href="services.html" data-nav data-i18n="nav.services">Services</a>
+      <a href="barbers.html"  data-nav data-i18n="nav.barbers">Barbers</a>
+      <a href="admin.html"    data-nav class="admin-link"><span class="admin-dot" aria-hidden="true"></span><span data-i18n="nav.admin">Admin</span></a>
+    </div>
+    <div class="lang-toggle" data-lang-toggle role="group" aria-label="Language">
+      <button type="button" data-set-lang="en" class="active">EN</button>
+      <button type="button" data-set-lang="ar">عربي</button>
+    </div>
+    <a class="nav-cta" href="book.html"><span data-i18n="nav.book">Book</span>
+      <span class="nub" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </a>
+    <button class="nav-burger" data-burger aria-label="Open menu" data-i18n-attr="aria-label:nav.open_menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-overlay" data-overlay>
+    <a href="index.html"    data-i18n="nav.shop">Shop</a>
+    <a href="services.html" data-i18n="nav.services">Services</a>
+    <a href="barbers.html"  data-i18n="nav.barbers">Barbers</a>
+    <a href="admin.html"    class="admin-link"><span class="admin-dot" aria-hidden="true"></span><span data-i18n="nav.admin">Admin</span></a>
+    <a href="book.html"     data-i18n="nav.reserve">Reserve a chair</a>
+    <div class="lang-toggle" data-lang-toggle role="group" aria-label="Language" style="align-self:flex-start;margin-top:1rem;">
+      <button type="button" data-set-lang="en" class="active">EN</button>
+      <button type="button" data-set-lang="ar">عربي</button>
+    </div>
+    <div class="nav-overlay-meta">
+      <span data-i18n="nav.meta_year">NORTH&amp;HALE · EST. 2019</span>
+      <span data-i18n="nav.meta_hours">OPEN DAILY</span>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <section class="pt-32 md:pt-40 pb-12 md:pb-20 px-6 md:px-12">
+    <div class="max-w-[1400px] mx-auto">
+      <span class="eyebrow reveal" data-i18n="spg.eyebrow">The catalogue</span>
+      <h1 class="font-display reveal mt-7 leading-[0.92]" data-delay="1"
+          style="font-size: clamp(2.75rem, 9vw, 8rem);">
+        <span data-i18n="spg.h1.line1">Eight services.</span><br/>
+        <span class="text-dim" data-i18n="spg.h1.line2">Nothing on the menu we don't do well.</span>
+      </h1>
+      <p class="reveal mt-8 max-w-[560px] text-dim text-base md:text-lg leading-relaxed" data-delay="2" data-i18n="spg.sub">
+        Every service is priced flat and timed exact. No upsells at the chair,
+        no hidden fees at the till. What you book is what you pay.
+      </p>
+    </div>
+  </section>
+
+  <!-- SERVICES BENTO -->
+  <section class="px-6 md:px-12 pb-20 md:pb-32">
+    <div class="max-w-[1400px] mx-auto">
+      <div id="services-grid" class="grid grid-cols-12 gap-4 md:gap-5">
+        <!-- rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <section class="px-6 md:px-12 py-24 md:py-32 border-t hairline">
+    <div class="max-w-[1400px] mx-auto">
+      <div class="bezel reveal">
+        <div class="bezel-core p-10 md:p-20 text-center flex flex-col items-center">
+          <span class="eyebrow" data-i18n="spg.cta.eyebrow">Pick a service, pick a chair</span>
+          <h2 class="font-display text-4xl md:text-7xl mt-8 leading-[0.92]">
+            <span data-i18n="spg.cta.line1">You've seen the menu.</span><br/>
+            <span class="text-dim" data-i18n="spg.cta.line2">Sit down.</span>
+          </h2>
+          <a class="cta mt-10" href="book.html">
+            <span data-i18n="hero.cta.reserve">Reserve a chair</span>
+            <span class="nub" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="px-6 md:px-12 py-12 border-t hairline">
+    <div class="max-w-[1400px] mx-auto flex flex-wrap justify-between text-[10px] tracking-[0.2em] uppercase text-faint gap-4">
+      <span data-i18n="footer.copy">© 2026 NORTH&amp;HALE BARBERS</span>
+      <span data-i18n="footer.addr.short">OLAYA · RIYADH</span>
+      <span data-i18n="footer.proto">PROTOTYPE BUILD</span>
+    </div>
+  </footer>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/i18n.js"></script>
+  <script src="assets/ui.js"></script>
+  <script>
+    (function () {
+      const grid = document.getElementById('services-grid');
+      const spans = [
+        'col-span-12 md:col-span-7 md:row-span-2',
+        'col-span-12 md:col-span-5',
+        'col-span-12 md:col-span-5',
+        'col-span-12 md:col-span-4',
+        'col-span-12 md:col-span-4',
+        'col-span-12 md:col-span-4',
+        'col-span-12 md:col-span-7',
+        'col-span-12 md:col-span-5'
+      ];
+      const heights = [
+        'min-h-[420px] md:min-h-[480px]',
+        'min-h-[220px]','min-h-[220px]','min-h-[200px]','min-h-[200px]','min-h-[200px]','min-h-[220px]','min-h-[220px]'
+      ];
+
+      function render() {
+        const tierKey = { core: 'tier.core', premium: 'tier.premium', signature: 'tier.signature' };
+        const html = BP3.SERVICES.map(function (s, i) {
+          const span = spans[i] || 'col-span-12 md:col-span-6';
+          const minH = heights[i] || 'min-h-[200px]';
+          const isFeature = i === 0;
+          const titleSize = isFeature ? 'text-5xl md:text-7xl' : 'text-2xl md:text-3xl';
+          return `<article class="bento-cell ${span} bezel lift reveal is-visible" data-delay="${(i % 5) + 1}">
+            <div class="bezel-core p-6 md:p-8 ${minH} h-full flex flex-col justify-between">
+              <div class="flex items-start justify-between gap-3">
+                <span class="eyebrow">${BP3.t(tierKey[s.tier] || 'tier.core')}</span>
+                <span class="font-mono-tag text-xs text-dim tracking-[0.14em] whitespace-nowrap" data-ltr>${BP3.formatDuration(s.duration).toUpperCase()} · ${BP3.formatPrice(s.price)}</span>
+              </div>
+              <div>
+                <h3 class="font-display ${titleSize} leading-[0.95] mt-10">${esc(BP3.L(s.name))}</h3>
+                <p class="text-dim mt-4 max-w-[460px] leading-relaxed text-sm md:text-base">${esc(BP3.L(s.description))}</p>
+                <div class="mt-7 flex items-center gap-3 flex-wrap">
+                  <span class="font-mono-tag text-xs tracking-[0.14em] uppercase text-faint">${esc(BP3.L(s.tagline))}</span>
+                </div>
+                <div class="mt-7">
+                  <a class="cta-ghost" href="book.html?service=${encodeURIComponent(s.id)}">
+                    <span>${BP3.t('spg.book_one_named')}</span>
+                    <span class="nub" aria-hidden="true">
+                      <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>`;
+        }).join('');
+        grid.innerHTML = html;
+      }
+
+      function esc(s) {
+        return String(s).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
+      if (document.readyState !== 'loading') render();
+      else document.addEventListener('DOMContentLoaded', render);
+      document.addEventListener('bp3:langchange', render);
+    })();
+  </script>
+</body>
+</html>

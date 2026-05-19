@@ -1,0 +1,19 @@
+# Local Claude Code settings
+.claude/
+
+# Vendored superpowers framework (separate upstream repo)
+superpowers-main/
+
+# OS junk
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+$RECYCLE.BIN/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Admin · Orders — NORTH&amp;HALE</title>
+  <meta name="theme-color" content="#070707" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23f5f4f1'/><text x='16' y='22' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='18' fill='%23050505'>N</text></svg>" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <style>
+    /* ============================================================
+       ADMIN DASHBOARD — utilitarian, dense, internal-tool feel
+       Overrides the marketing-site styles for this page only.
+       ============================================================ */
+    body.admin-body {
+      background: #070707;
+      font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+      font-size: 14px;
+      color: #d6d4cf;
+    }
+    body.admin-body .grain, body.admin-body .mesh-bg { display: none !important; }
+
+    .admin-shell {
+      display: grid;
+      grid-template-columns: 248px 1fr;
+      min-height: 100dvh;
+    }
+
+    /* ---------- SIDEBAR ---------- */
+    .admin-sidebar {
+      background: #0b0b0b;
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 1.25rem 0.85rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      align-self: start;
+      max-height: 100dvh;
+      overflow-y: auto;
+    }
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.25rem 0.5rem 0.85rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .admin-brand .mark {
+      font-family: 'Clash Display', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+      color: #f5f4f1;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    .admin-brand .mark::before {
+      content: '';
+      width: 0.5rem; height: 0.5rem; border-radius: 999px;
+      background: #f5f4f1;
+    }
+    .admin-brand .ver {
+      font-family: 'Geist', monospace;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: #56544f;
+      padding: 0.2rem 0.4rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+    }
+
+    .admin-nav-section {
+      padding: 0 0.5rem;
+    }
+    .admin-nav-section .heading {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #56544f;
+      padding: 0.4rem 0;
+      margin-bottom: 0.25rem;
+    }
+    .admin-nav a {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.55rem 0.65rem;
+      border-radius: 0.55rem;
+      color: #a7a59f;
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .admin-nav a:hover { color: #f5f4f1; background: rgba(255, 255, 255, 0.03); }
+    .admin-nav a.active {
+      color: #f5f4f1;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .admin-nav a.active::before {
+      content: '';
+      position: absolute;
+      left: -0.35rem;
+      top: 50%; transform: translateY(-50%);
+      width: 3px; height: 18px;
+      background: #c8e870;
+      border-radius: 2px;
+    }
+    html[dir="rtl"] .admin-nav a.active::before {
+      left: auto; right: -0.35rem;
+    }
+    .admin-nav a svg { flex-shrink: 0; }
+    .admin-nav a .count {
+      margin-left: auto;
+      font-family: 'Geist', monospace;
+      font-size: 11px;
+      color: #56544f;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+    html[dir="rtl"] .admin-nav a .count { margin-left: 0; margin-right: auto; }
+    .admin-nav a.active .count { color: #c8e870; }
+
+    .admin-sidebar .filler { flex: 1; }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.5rem;
+      border-radius: 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .admin-avatar {
+      width: 2rem; height: 2rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #e8a87c 0%, #5b8def 100%);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: 'Clash Display', sans-serif;
+      font-weight: 700;
+      color: #050505;
+      font-size: 12px;
+    }
+    .admin-profile .info { min-width: 0; }
+    .admin-profile .info .name { font-size: 12px; color: #f5f4f1; font-weight: 500; }
+    .admin-profile .info .role { font-size: 10px; color: #56544f; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    .admin-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: #56544f;
+      text-decoration: none;
+      padding: 0.5rem;
+      transition: color 0.2s;
+    }
+    .admin-back:hover { color: #a7a59f; }
+    html[dir="rtl"] .admin-back svg { transform: scaleX(-1); }
+
+    /* ---------- MAIN AREA ---------- */
+    .admin-main {
+      padding: 1.5rem 1.75rem 2rem;
+      min-width: 0;
+    }
+
+    .admin-topbar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 1.5rem;
+    }
+    .admin-topbar .crumbs {
+      font-size: 12px;
+      color: #56544f;
+      letter-spacing: 0.04em;
+    }
+    .admin-topbar .crumbs strong { color: #f5f4f1; font-weight: 500; }
+    .admin-topbar h1 {
+      font-family: 'Geist', ui-sans-serif, sans-serif;
+      font-weight: 600;
+      font-size: 1.55rem;
+      letter-spacing: -0.02em;
+      color: #f5f4f1;
+      margin: 0.35rem 0 0;
+      line-height: 1.1;
+    }
+    html[dir="rtl"] .admin-topbar h1 {
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 700;
+    }
+
+    .admin-search {
+      flex: 1;
+      min-width: 220px;
+      max-width: 360px;
+      margin-left: auto;
+      position: relative;
+    }
+    html[dir="rtl"] .admin-search { margin-left: 0; margin-right: auto; }
+    .admin-search input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #f5f4f1;
+      font: inherit;
+      padding: 0.55rem 0.85rem 0.55rem 2.15rem;
+      border-radius: 0.55rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    html[dir="rtl"] .admin-search input { padding: 0.55rem 2.15rem 0.55rem 0.85rem; }
+    .admin-search input:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .admin-search input::placeholder { color: #56544f; }
+    .admin-search svg {
+      position: absolute;
+      left: 0.7rem; top: 50%; transform: translateY(-50%);
+      color: #56544f;
+    }
+    html[dir="rtl"] .admin-search svg { left: auto; right: 0.7rem; }
+
+    .admin-action {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.55rem 0.85rem;
+      background: #f5f4f1;
+      color: #050505;
+      border-radius: 0.55rem;
+      font-weight: 500;
+      font-size: 13px;
+      text-decoration: none;
+      transition: background 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .admin-action:hover { background: #fff; }
+    .admin-action-ghost {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.55rem 0.85rem;
+      background: rgba(255, 255, 255, 0.03);
+      color: #d6d4cf;
+      border-radius: 0.55rem;
+      font-weight: 500;
+      font-size: 13px;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .admin-action-ghost:hover { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.12); }
+    .admin-action-danger:hover { color: #ff8a8a; border-color: rgba(245, 100, 100, 0.4); }
+
+    /* ---------- KPI CARDS ---------- */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 960px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .kpi {
+      background: #0d0d0d;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 0.65rem;
+      padding: 0.9rem 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .kpi .label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #56544f;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    html[dir="rtl"] .kpi .label { text-transform: none; letter-spacing: 0.04em; font-size: 11px; }
+    .kpi .value {
+      font-size: 1.65rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #f5f4f1;
+      line-height: 1;
+      font-feature-settings: 'tnum' 1;
+    }
+    .kpi .delta {
+      font-size: 11px;
+      color: #56544f;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .kpi .delta.up { color: #c8e870; }
+    .kpi .delta.live { color: #c8e870; }
+    .kpi .delta .dot {
+      width: 0.35rem; height: 0.35rem; border-radius: 999px;
+      background: currentColor;
+      box-shadow: 0 0 8px currentColor;
+    }
+
+    /* ---------- FILTER ROW ---------- */
+    .filter-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+      padding-bottom: 0.85rem;
+      margin-bottom: 0.85rem;
+    }
+    .filter-tab {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.35rem 0.7rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      background: transparent;
+      color: #a7a59f;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .filter-tab:hover { color: #f5f4f1; background: rgba(255, 255, 255, 0.03); }
+    .filter-tab.active {
+      background: rgba(245, 244, 241, 0.95);
+      color: #050505;
+      border-color: transparent;
+    }
+    .filter-tab .pip-dot {
+      width: 0.4rem; height: 0.4rem; border-radius: 999px;
+    }
+    .filter-tab .pip-count {
+      font-family: 'Geist', monospace;
+      font-size: 11px;
+      padding: 0.05rem 0.4rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .filter-tab.active .pip-count { background: rgba(5, 5, 5, 0.12); color: #050505; }
+    .filter-spacer { flex: 1; min-width: 0.5rem; }
+
+    /* ---------- TABLE ---------- */
+    .table-wrap {
+      background: #0a0a0a;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 0.65rem;
+      overflow: hidden;
+    }
+    .table-scroll { overflow-x: auto; }
+    table.admin-table {
+      width: 100%;
+      min-width: 920px;
+      border-collapse: collapse;
+      font-feature-settings: 'tnum' 1;
+    }
+    .admin-table thead th {
+      text-align: left;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #56544f;
+      font-weight: 500;
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.015);
+      white-space: nowrap;
+    }
+    html[dir="rtl"] .admin-table thead th {
+      text-align: right;
+      text-transform: none;
+      letter-spacing: 0.04em;
+      font-size: 11px;
+    }
+    .admin-table tbody td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      vertical-align: middle;
+      color: #d6d4cf;
+      font-size: 13px;
+    }
+    .admin-table tbody tr {
+      transition: background 0.18s, opacity 0.3s, transform 0.3s;
+    }
+    .admin-table tbody tr:hover { background: rgba(255, 255, 255, 0.025); }
+    .admin-table tbody tr.is-removing { opacity: 0; transform: translateY(-3px); pointer-events: none; }
+    .admin-table tbody tr:last-child td { border-bottom: none; }
+
+    .code-chip {
+      font-family: 'Geist', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: #d6d4cf;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.35rem;
+      background: rgba(255, 255, 255, 0.04);
+      direction: ltr;
+      unicode-bidi: isolate;
+      white-space: nowrap;
+    }
+
+    .cust-name { color: #f5f4f1; }
+    .cust-phone { font-size: 11px; color: #56544f; direction: ltr; unicode-bidi: isolate; }
+
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .status-pill .pill-dot {
+      width: 0.38rem; height: 0.38rem; border-radius: 999px;
+    }
+    .status-pill.today    { background: rgba(200, 232, 112, 0.12); color: #c8e870; }
+    .status-pill.upcoming { background: rgba(91, 141, 239, 0.12); color: #5b8def; }
+    .status-pill.done     { background: rgba(255, 255, 255, 0.04); color: #7a7872; }
+    .status-pill.today .pill-dot    { background: #c8e870; box-shadow: 0 0 6px #c8e87080; }
+    .status-pill.upcoming .pill-dot { background: #5b8def; box-shadow: 0 0 6px #5b8def80; }
+    .status-pill.done .pill-dot     { background: #56544f; }
+
+    .row-actions { display: flex; gap: 0.35rem; justify-content: flex-end; }
+    html[dir="rtl"] .row-actions { justify-content: flex-start; }
+    .icon-btn {
+      width: 1.85rem; height: 1.85rem;
+      border-radius: 0.4rem;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: #7a7872;
+      cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .icon-btn:hover { color: #f5f4f1; border-color: rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.04); }
+    .icon-btn.danger:hover { color: #ff8a8a; border-color: rgba(245, 100, 100, 0.4); background: rgba(245, 100, 100, 0.06); }
+
+    /* Pagination/footer */
+    .table-foot {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.65rem 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 11px;
+      color: #56544f;
+      letter-spacing: 0.06em;
+    }
+
+    /* Empty state */
+    .empty {
+      padding: 4rem 1rem;
+      text-align: center;
+      color: #56544f;
+      font-size: 13px;
+    }
+    .empty strong { color: #d6d4cf; font-weight: 500; display: block; font-size: 15px; margin-bottom: 0.4rem; }
+
+    /* Language toggle in sidebar */
+    .admin-sidebar .lang-toggle { width: 100%; justify-content: stretch; }
+    .admin-sidebar .lang-toggle button { flex: 1; padding: 0.35rem 0; }
+
+    /* Responsive: sidebar collapses on narrow viewports */
+    @media (max-width: 900px) {
+      .admin-shell { grid-template-columns: 1fr; }
+      .admin-sidebar {
+        position: relative;
+        max-height: none;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
+        overflow-x: auto;
+        padding: 0.75rem 1rem;
+        flex-wrap: nowrap;
+      }
+      .admin-sidebar .admin-brand { border-bottom: none; padding: 0; flex-shrink: 0; }
+      .admin-sidebar .admin-nav-section { flex-shrink: 0; padding: 0; }
+      .admin-sidebar .admin-nav-section .heading { display: none; }
+      .admin-sidebar .admin-nav { display: flex; gap: 0.25rem; }
+      .admin-sidebar .admin-nav a { white-space: nowrap; padding: 0.4rem 0.6rem; }
+      .admin-sidebar .filler, .admin-sidebar .admin-profile, .admin-sidebar .admin-back { display: none; }
+      .admin-sidebar .lang-toggle { flex-shrink: 0; width: auto; }
+      .admin-sidebar .lang-toggle button { flex: 0; padding: 0.3rem 0.6rem; }
+      .admin-main { padding: 1.25rem 1rem 2rem; }
+      .admin-topbar h1 { font-size: 1.3rem; }
+      .admin-search { max-width: none; }
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="admin-body">
+
+  <div class="admin-shell">
+
+    <!-- ========================= SIDEBAR ========================= -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <a class="mark" href="admin.html">NORTH<span style="color:#56544f">&amp;</span>HALE</a>
+        <span class="ver">v1.0</span>
+      </div>
+
+      <div class="admin-nav-section">
+        <div class="heading" data-en="Manage" data-ar="إدارة">Manage</div>
+        <nav class="admin-nav">
+          <a href="#" data-section="dashboard">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/></svg>
+            <span data-en="Dashboard" data-ar="لوحة التحكم">Dashboard</span>
+          </a>
+          <a href="#orders" class="active" data-section="orders">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 4 H13 M3 8 H13 M3 12 H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            <span data-en="Orders" data-ar="الطلبات">Orders</span>
+            <span class="count" id="nav-count">0</span>
+          </a>
+          <a href="#" data-section="customers">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="2.6" stroke="currentColor" stroke-width="1.3"/><path d="M2.5 14 C3.5 11 12.5 11 13.5 14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            <span data-en="Customers" data-ar="العملاء">Customers</span>
+          </a>
+          <a href="#" data-section="barbers">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="4" cy="4.5" r="2" stroke="currentColor" stroke-width="1.3"/><circle cx="4" cy="11.5" r="2" stroke="currentColor" stroke-width="1.3"/><path d="M6 6 L14 13 M6 10 L14 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            <span data-en="Barbers" data-ar="الحلاقون">Barbers</span>
+          </a>
+          <a href="#" data-section="schedule">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2.5" y="3.5" width="11" height="10" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M2.5 6 H13.5 M5.5 2 V5 M10.5 2 V5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            <span data-en="Schedule" data-ar="الجدول">Schedule</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="admin-nav-section">
+        <div class="heading" data-en="Shop" data-ar="المحل">Shop</div>
+        <nav class="admin-nav">
+          <a href="#" data-section="services">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 3 L8.5 3 L13 7.5 L7.5 13 L3 8.5 Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="5.5" cy="5.5" r="0.8" fill="currentColor"/></svg>
+            <span data-en="Services" data-ar="الخدمات">Services</span>
+          </a>
+          <a href="#" data-section="settings">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.5 V3 M8 13 V14.5 M14.5 8 H13 M3 8 H1.5 M12.6 3.4 L11.5 4.5 M4.5 11.5 L3.4 12.6 M12.6 12.6 L11.5 11.5 M4.5 4.5 L3.4 3.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            <span data-en="Settings" data-ar="الإعدادات">Settings</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="filler"></div>
+
+      <div class="admin-nav-section">
+        <div class="heading" data-en="Language" data-ar="اللغة">Language</div>
+        <div class="lang-toggle" data-lang-toggle role="group" aria-label="Language">
+          <button type="button" data-set-lang="en" class="active">EN</button>
+          <button type="button" data-set-lang="ar">عربي</button>
+        </div>
+      </div>
+
+      <div class="admin-profile">
+        <div class="admin-avatar">SA</div>
+        <div class="info">
+          <div class="name">Saud Al-Mutairi</div>
+          <div class="role" data-en="Manager" data-ar="مدير">Manager</div>
+        </div>
+      </div>
+
+      <a href="index.html" class="admin-back">
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M10 6 H2 M6 2 L2 6 L6 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-en="Back to site" data-ar="العودة للموقع">Back to site</span>
+      </a>
+    </aside>
+
+    <!-- ========================= MAIN ========================= -->
+    <main class="admin-main">
+
+      <!-- Topbar -->
+      <header class="admin-topbar">
+        <div>
+          <div class="crumbs">
+            <span data-en="Admin" data-ar="الإدارة">Admin</span>
+            <span style="margin: 0 0.4rem; color:#3a3936;">/</span>
+            <strong data-en="Orders" data-ar="الطلبات">Orders</strong>
+          </div>
+          <h1 data-en="Reservations" data-ar="الحجوزات">Reservations</h1>
+        </div>
+        <label class="admin-search">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M10.5 10.5 L14 14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <input id="q" type="search" placeholder="Search code, customer, phone…" data-i18n-attr="placeholder:admin.search.ph" />
+        </label>
+        <a href="book.html" class="admin-action">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2 V10 M2 6 H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span data-en="New booking" data-ar="حجز جديد">New booking</span>
+        </a>
+      </header>
+
+      <!-- KPI cards -->
+      <section class="kpi-grid">
+        <div class="kpi">
+          <div class="label" data-en="Total revenue" data-ar="إجمالي الإيرادات">Total revenue</div>
+          <div class="value" id="kpi-revenue" data-ltr>SAR 0</div>
+          <div class="delta up">
+            <span class="dot"></span>
+            <span data-en="Lifetime" data-ar="إجمالي">Lifetime</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="label" data-en="Today" data-ar="اليوم">Today</div>
+          <div class="value" id="kpi-today" data-ltr>0</div>
+          <div class="delta live">
+            <span class="dot"></span>
+            <span data-en="Live" data-ar="مباشر">Live</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="label" data-en="Upcoming" data-ar="القادمة">Upcoming</div>
+          <div class="value" id="kpi-upcoming" data-ltr>0</div>
+          <div class="delta">
+            <span data-en="Next 14 days" data-ar="خلال ١٤ يوم">Next 14 days</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="label" data-en="Avg ticket" data-ar="متوسط الطلب">Avg ticket</div>
+          <div class="value" id="kpi-avg" data-ltr>SAR 0</div>
+          <div class="delta">
+            <span data-en="Per booking" data-ar="لكل حجز">Per booking</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Filter row -->
+      <section class="filter-row">
+        <button class="filter-tab active" data-filter="all">
+          <span data-en="All" data-ar="الكل">All</span>
+          <span class="pip-count" id="cnt-all">0</span>
+        </button>
+        <button class="filter-tab" data-filter="today">
+          <span class="pip-dot" style="background:#c8e870"></span>
+          <span data-en="Today" data-ar="اليوم">Today</span>
+          <span class="pip-count" id="cnt-today">0</span>
+        </button>
+        <button class="filter-tab" data-filter="upcoming">
+          <span class="pip-dot" style="background:#5b8def"></span>
+          <span data-en="Upcoming" data-ar="قادم">Upcoming</span>
+          <span class="pip-count" id="cnt-upcoming">0</span>
+        </button>
+        <button class="filter-tab" data-filter="done">
+          <span class="pip-dot" style="background:#56544f"></span>
+          <span data-en="Done" data-ar="منتهي">Done</span>
+          <span class="pip-count" id="cnt-done">0</span>
+        </button>
+
+        <span class="filter-spacer"></span>
+
+        <button id="reseed-btn" type="button" class="admin-action-ghost">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6 A4 4 0 1 0 6 2 M2 2 V6 H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-en="Re-seed mocks" data-ar="إعادة تعبئة">Re-seed mocks</span>
+        </button>
+        <button id="clear-btn" type="button" class="admin-action-ghost admin-action-danger">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3 L9 9 M9 3 L3 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span data-en="Clear all" data-ar="حذف الكل">Clear all</span>
+        </button>
+      </section>
+
+      <!-- Table -->
+      <section class="table-wrap">
+        <div class="table-scroll">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th data-en="Code"     data-ar="الرمز">Code</th>
+                <th data-en="Customer" data-ar="العميل">Customer</th>
+                <th data-en="Barber"   data-ar="الحلاق">Barber</th>
+                <th data-en="Service"  data-ar="الخدمة">Service</th>
+                <th data-en="When"     data-ar="الموعد">When</th>
+                <th data-en="Total"    data-ar="الإجمالي">Total</th>
+                <th data-en="Status"   data-ar="الحالة">Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="orders-body"></tbody>
+          </table>
+        </div>
+        <div class="table-foot" id="table-foot"></div>
+      </section>
+    </main>
+
+  </div>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/i18n.js"></script>
+  <script>
+    /* ============================================================
+       Admin Dashboard — Orders
+       ============================================================ */
+    (function () {
+      const STORAGE_KEY = 'bp3.orders.v3';
+
+      const FAKE_NAMES = [
+        { en: 'Khalid Al-Otaibi',      ar: 'خالد العتيبي'    },
+        { en: 'Ahmed Bin Salem',       ar: 'أحمد بن سالم'    },
+        { en: 'Mohammed Al-Qahtani',   ar: 'محمد القحطاني'   },
+        { en: 'Faisal Al-Harbi',       ar: 'فيصل الحربي'     },
+        { en: 'Omar Al-Shahrani',      ar: 'عمر الشهراني'    },
+        { en: 'Abdulrahman Al-Dosari', ar: 'عبدالرحمن الدوسري' },
+        { en: 'Yousef Al-Ghamdi',      ar: 'يوسف الغامدي'    },
+        { en: 'Saud Al-Mutairi',       ar: 'سعود المطيري'    },
+        { en: 'Nasser Al-Subaie',      ar: 'ناصر السبيعي'    },
+        { en: 'Bandar Al-Otaibi',      ar: 'بندر العتيبي'    },
+        { en: 'Turki Al-Rashid',       ar: 'تركي الراشد'     },
+        { en: 'Ziyad Al-Saleh',        ar: 'زياد الصالح'     },
+        { en: 'Hamad Al-Najjar',       ar: 'حمد النجار'      },
+        { en: 'Sultan Al-Anazi',       ar: 'سلطان العنزي'    },
+        { en: 'Majed Al-Zahrani',      ar: 'ماجد الزهراني'   },
+        { en: 'Rakan Al-Faraj',        ar: 'راكان الفرج'     }
+      ];
+
+      const FAKE_PHONES = [
+        '+966 50 123 4567','+966 55 234 5678','+966 53 345 6789','+966 56 456 7890',
+        '+966 54 567 8901','+966 57 678 9012','+966 58 789 0123','+966 50 890 1234',
+        '+966 55 901 2345','+966 53 012 3456','+966 54 123 7788','+966 56 234 8899',
+        '+966 50 345 9900','+966 55 456 1122','+966 53 567 2233','+966 57 678 3344'
+      ];
+
+      function genCode() {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        let s = '';
+        for (let i = 0; i < 8; i++) s += chars[Math.floor(Math.random() * chars.length)];
+        return s.slice(0, 4) + '-' + s.slice(4);
+      }
+
+      function seedOrders() {
+        const orders = [];
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const offsets = [-3, -2, -1, 0, 0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 12, 13];
+        /* About a third of orders are multi-service to show off the new flow */
+        const multiPattern = [1, 0, 2, 0, 0, 1, 0, 0, 2, 0, 0, 1, 0, 0, 1, 0];
+        for (let i = 0; i < FAKE_NAMES.length; i++) {
+          const barber  = BP3.BARBERS[i % BP3.BARBERS.length];
+          const primary = BP3.SERVICES[(i * 3 + 2) % BP3.SERVICES.length];
+          const ids = [primary.id];
+          const extras = multiPattern[i] || 0;
+          for (let j = 1; j <= extras; j++) {
+            const cand = BP3.SERVICES[(i * 3 + 2 + j * 4) % BP3.SERVICES.length];
+            if (ids.indexOf(cand.id) === -1) ids.push(cand.id);
+          }
+          const d = new Date(today);
+          d.setDate(today.getDate() + (offsets[i] ?? (i % 12)));
+          const hour = 10 + ((i * 2 + 1) % 8);
+          orders.push({
+            code: genCode(), barberId: barber.id,
+            serviceIds: ids,
+            serviceId: ids[0],
+            dateIso: d.toISOString().slice(0, 10), hour: hour,
+            name: FAKE_NAMES[i].en, nameAr: FAKE_NAMES[i].ar,
+            phone: FAKE_PHONES[i], notes: '',
+            createdAt: new Date(Date.now() - i * 3600 * 1000).toISOString()
+          });
+        }
+        const todayIso = today.toISOString().slice(0, 10);
+        orders.sort(function (a, b) {
+          const at = a.dateIso < todayIso ? 2 : (a.dateIso === todayIso ? 0 : 1);
+          const bt = b.dateIso < todayIso ? 2 : (b.dateIso === todayIso ? 0 : 1);
+          if (at !== bt) return at - bt;
+          return a.dateIso.localeCompare(b.dateIso) || (a.hour - b.hour);
+        });
+        return orders;
+      }
+
+      function loadOrders() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const arr = JSON.parse(raw);
+            if (Array.isArray(arr) && arr.length > 0) return arr;
+          }
+        } catch (e) {}
+        const seeded = seedOrders();
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(seeded)); } catch (e) {}
+        return seeded;
+      }
+      function saveOrders(orders) {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(orders)); } catch (e) {}
+      }
+
+      function statusOf(o) {
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const todayIso = today.toISOString().slice(0, 10);
+        if (!o.dateIso) return 'upcoming';
+        if (o.dateIso < todayIso) return 'done';
+        if (o.dateIso === todayIso) return 'today';
+        return 'upcoming';
+      }
+
+      const STATUS_LABEL = {
+        done:     { en: 'Done',     ar: 'منتهي'  },
+        today:    { en: 'Today',    ar: 'اليوم'  },
+        upcoming: { en: 'Upcoming', ar: 'قادم'   }
+      };
+
+      let orders = loadOrders();
+      let activeFilter = 'all';
+      let query = '';
+
+      function nameFor(o) {
+        const lang = BP3.getLang();
+        if (lang === 'ar' && o.nameAr) return o.nameAr;
+        return o.name || '—';
+      }
+
+      function servicesOf(o) {
+        const ids = Array.isArray(o.serviceIds) && o.serviceIds.length
+          ? o.serviceIds
+          : (o.serviceId ? [o.serviceId] : []);
+        return ids.map(BP3.findService).filter(Boolean);
+      }
+      function orderTotal(o)    { return servicesOf(o).reduce(function (n, s) { return n + s.price; }, 0); }
+      function orderDuration(o) { return servicesOf(o).reduce(function (n, s) { return n + s.duration; }, 0); }
+
+      function fmtDate(iso) {
+        if (!iso) return '—';
+        return BP3.formatDateLong(iso);
+      }
+
+      function applyTranslations() {
+        const lang = BP3.getLang();
+        document.querySelectorAll('[data-en]').forEach(function (el) {
+          const v = lang === 'ar' ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+          if (v != null) el.textContent = v;
+        });
+        const q = document.getElementById('q');
+        if (q) q.placeholder = lang === 'ar' ? 'بحث برمز أو عميل أو هاتف…' : 'Search code, customer, phone…';
+      }
+
+      function render() {
+        applyTranslations();
+
+        const lang = BP3.getLang();
+        const tbody = document.getElementById('orders-body');
+        const foot = document.getElementById('table-foot');
+
+        // Count by status across all orders (not just filtered)
+        const counts = { all: orders.length, today: 0, upcoming: 0, done: 0 };
+        let revenueTotal = 0;
+        orders.forEach(function (o) {
+          const st = statusOf(o);
+          counts[st]++;
+          revenueTotal += orderTotal(o);
+        });
+        document.getElementById('cnt-all').textContent = counts.all;
+        document.getElementById('cnt-today').textContent = counts.today;
+        document.getElementById('cnt-upcoming').textContent = counts.upcoming;
+        document.getElementById('cnt-done').textContent = counts.done;
+        document.getElementById('nav-count').textContent = counts.all;
+
+        // KPIs
+        document.getElementById('kpi-revenue').textContent = BP3.formatPrice(revenueTotal);
+        document.getElementById('kpi-today').textContent = counts.today;
+        document.getElementById('kpi-upcoming').textContent = counts.upcoming;
+        const avg = counts.all ? Math.round(revenueTotal / counts.all) : 0;
+        document.getElementById('kpi-avg').textContent = BP3.formatPrice(avg);
+
+        // Filter + search
+        const q = (query || '').trim().toLowerCase();
+        const filtered = orders.filter(function (o) {
+          const st = statusOf(o);
+          if (activeFilter !== 'all' && st !== activeFilter) return false;
+          if (!q) return true;
+          const svcNames = servicesOf(o).map(function (sv) { return BP3.L(sv.name); }).join(' ');
+          const hay = [
+            o.code, o.name, o.nameAr, o.phone,
+            BP3.L(BP3.findBarber(o.barberId)?.name || ''),
+            svcNames
+          ].join(' ').toLowerCase();
+          return hay.indexOf(q) !== -1;
+        });
+
+        if (!filtered.length) {
+          tbody.innerHTML = `<tr><td colspan="8">
+            <div class="empty">
+              <strong>${esc(lang === 'ar' ? 'لا توجد طلبات' : 'No orders')}</strong>
+              ${esc(lang === 'ar' ? 'جرّب تغيير الفلتر أو إعادة تعبئة المثال.' : 'Try changing the filter or re-seed the mocks.')}
+            </div>
+          </td></tr>`;
+          foot.innerHTML = `<span>${esc(lang === 'ar' ? '٠ نتائج' : '0 results')}</span><span>${esc(lang === 'ar' ? `من أصل ${counts.all}` : `of ${counts.all} total`)}</span>`;
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(function (o) {
+          const b = BP3.findBarber(o.barberId);
+          const svcs = servicesOf(o);
+          const status = statusOf(o);
+          const when = (o.dateIso && o.hour != null)
+            ? `${fmtDate(o.dateIso)} · ${BP3.formatTime12(o.hour, 0)}`
+            : '—';
+          /* Build the service-cell text: first name + "+N more" suffix when applicable */
+          const firstName = svcs[0] ? BP3.L(svcs[0].name) : '—';
+          const moreCount = Math.max(0, svcs.length - 1);
+          const moreLabel = moreCount
+            ? (lang === 'ar' ? ` +${moreCount}` : ` +${moreCount}`)
+            : '';
+          const fullList = svcs.map(function (sv) { return BP3.L(sv.name); }).join(' · ');
+          return `<tr data-code="${esc(o.code)}">
+            <td><span class="code-chip">${esc(o.code)}</span></td>
+            <td>
+              <div class="cust-name">${esc(nameFor(o))}</div>
+              <div class="cust-phone">${esc(o.phone || '')}</div>
+            </td>
+            <td>${esc(b ? BP3.L(b.name) : '—')}</td>
+            <td title="${esc(fullList)}">
+              <div>${esc(firstName)}${moreLabel ? `<span style="color:#5b8def;font-size:11px;margin-${lang === 'ar' ? 'right' : 'left'}:0.35rem;">${esc(moreLabel.trim())}</span>` : ''}</div>
+              <div style="font-size:11px;color:#56544f" data-ltr>${svcs.length ? BP3.formatDuration(orderDuration(o)) : '—'}</div>
+            </td>
+            <td>${esc(when)}</td>
+            <td data-ltr>${svcs.length ? BP3.formatPrice(orderTotal(o)) : '—'}</td>
+            <td>
+              <span class="status-pill ${status}">
+                <span class="pill-dot"></span>
+                ${esc(STATUS_LABEL[status][lang] || STATUS_LABEL[status].en)}
+              </span>
+            </td>
+            <td>
+              <div class="row-actions">
+                <button class="icon-btn" data-view="${esc(o.code)}" aria-label="${esc(lang === 'ar' ? 'عرض' : 'View')}">
+                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M1.5 8 C3.5 4 12.5 4 14.5 8 C12.5 12 3.5 12 1.5 8 Z" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
+                </button>
+                <button class="icon-btn danger" data-delete="${esc(o.code)}" aria-label="${esc(lang === 'ar' ? 'حذف' : 'Delete')}">
+                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 4.5 H13 M5.5 4.5 V3 H10.5 V4.5 M5 4.5 L5.5 13 H10.5 L11 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>`;
+        }).join('');
+
+        foot.innerHTML = lang === 'ar'
+          ? `<span>تعرض ${filtered.length} من ${counts.all}</span><span>${query ? `للبحث "${esc(query)}"` : (activeFilter === 'all' ? '' : 'مفلتر')}</span>`
+          : `<span>Showing ${filtered.length} of ${counts.all}</span><span>${query ? `for "${esc(query)}"` : (activeFilter === 'all' ? '' : 'filtered')}</span>`;
+
+        tbody.querySelectorAll('[data-delete]').forEach(function (btn) {
+          btn.addEventListener('click', function () { removeOrder(btn.getAttribute('data-delete')); });
+        });
+        tbody.querySelectorAll('[data-view]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            const code = btn.getAttribute('data-view');
+            const o = orders.find(function (x) { return x.code === code; });
+            if (!o) return;
+            const svcList = servicesOf(o).map(function (sv) { return BP3.L(sv.name); }).join(', ');
+            alert((lang === 'ar' ? 'حجز ' : 'Reservation ') + code + '\n\n' + nameFor(o) + ' · ' + (o.phone || '') + '\n' + fmtDate(o.dateIso) + ' · ' + BP3.formatTime12(o.hour, 0) + '\n' + svcList + ' · ' + BP3.L(BP3.findBarber(o.barberId)?.name || '') + '\n' + BP3.formatPrice(orderTotal(o)));
+          });
+        });
+      }
+
+      function removeOrder(code) {
+        const tr = document.querySelector(`tr[data-code="${cssEscape(code)}"]`);
+        if (tr) tr.classList.add('is-removing');
+        setTimeout(function () {
+          orders = orders.filter(function (o) { return o.code !== code; });
+          saveOrders(orders);
+          render();
+        }, 260);
+      }
+
+      function clearAll() {
+        const msg = BP3.getLang() === 'ar' ? 'حذف جميع الطلبات؟' : 'Delete all orders?';
+        if (!confirm(msg)) return;
+        orders = [];
+        saveOrders(orders);
+        render();
+      }
+
+      function reseed() {
+        orders = seedOrders();
+        saveOrders(orders);
+        render();
+      }
+
+      function cssEscape(s) {
+        return String(s).replace(/"/g, '\\"');
+      }
+      function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
+      function start() {
+        document.getElementById('clear-btn').addEventListener('click', clearAll);
+        document.getElementById('reseed-btn').addEventListener('click', reseed);
+        document.getElementById('q').addEventListener('input', function (e) {
+          query = e.target.value;
+          render();
+        });
+        document.querySelectorAll('.filter-tab').forEach(function (tab) {
+          tab.addEventListener('click', function () {
+            document.querySelectorAll('.filter-tab').forEach(function (t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+            activeFilter = tab.getAttribute('data-filter');
+            render();
+          });
+        });
+        /* Decorative sidebar links — show a toast for any non-orders section */
+        document.querySelectorAll('.admin-nav a[data-section]').forEach(function (a) {
+          a.addEventListener('click', function (e) {
+            const section = a.getAttribute('data-section');
+            if (section === 'orders') return;
+            e.preventDefault();
+            const lang = BP3.getLang();
+            alert((lang === 'ar' ? 'هذه الواجهة نموذجية. القسم ' : 'This is a prototype. The "') + section + (lang === 'ar' ? ' غير مفعّل بعد.' : '" section is not wired up yet.'));
+          });
+        });
+        render();
+      }
+
+      if (document.readyState !== 'loading') start();
+      else document.addEventListener('DOMContentLoaded', start);
+      document.addEventListener('bp3:langchange', render);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>The Bench — NORTH&amp;HALE</title>
+  <meta name="theme-color" content="#050505" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23f5f4f1'/><text x='16' y='22' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='18' fill='%23050505'>N</text></svg>" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body class="bg-bg text-ink antialiased">
+  <div class="mesh-bg"></div>
+  <div class="grain"></div>
+
+  <nav class="nav-pill" aria-label="Primary">
+    <a class="nav-mark" href="index.html" data-nav>NORTH<span class="text-faint">&amp;</span>HALE</a>
+    <div class="nav-links">
+      <a href="index.html"    data-nav data-i18n="nav.shop">Shop</a>
+      <a href="services.html" data-nav data-i18n="nav.services">Services</a>
+      <a href="barbers.html"  data-nav data-i18n="nav.barbers">Barbers</a>
+      <a href="admin.html"    data-nav class="admin-link"><span class="admin-dot" aria-hidden="true"></span><span data-i18n="nav.admin">Admin</span></a>
+    </div>
+    <div class="lang-toggle" data-lang-toggle role="group" aria-label="Language">
+      <button type="button" data-set-lang="en" class="active">EN</button>
+      <button type="button" data-set-lang="ar">عربي</button>
+    </div>
+    <a class="nav-cta" href="book.html"><span data-i18n="nav.book">Book</span>
+      <span class="nub" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </a>
+    <button class="nav-burger" data-burger aria-label="Open menu" data-i18n-attr="aria-label:nav.open_menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-overlay" data-overlay>
+    <a href="index.html"    data-i18n="nav.shop">Shop</a>
+    <a href="services.html" data-i18n="nav.services">Services</a>
+    <a href="barbers.html"  data-i18n="nav.barbers">Barbers</a>
+    <a href="admin.html"    class="admin-link"><span class="admin-dot" aria-hidden="true"></span><span data-i18n="nav.admin">Admin</span></a>
+    <a href="book.html"     data-i18n="nav.reserve">Reserve a chair</a>
+    <div class="lang-toggle" data-lang-toggle role="group" aria-label="Language" style="align-self:flex-start;margin-top:1rem;">
+      <button type="button" data-set-lang="en" class="active">EN</button>
+      <button type="button" data-set-lang="ar">عربي</button>
+    </div>
+    <div class="nav-overlay-meta">
+      <span data-i18n="nav.meta_year">NORTH&amp;HALE · EST. 2019</span>
+      <span data-i18n="nav.meta_hours">OPEN DAILY</span>
+    </div>
+  </div>
+
+  <section class="pt-32 md:pt-40 pb-12 md:pb-20 px-6 md:px-12">
+    <div class="max-w-[1400px] mx-auto">
+      <span class="eyebrow reveal" data-i18n="bpg.eyebrow">The bench</span>
+      <h1 class="font-display reveal mt-7 leading-[0.92]" data-delay="1"
+          style="font-size: clamp(2.75rem, 9vw, 8rem);">
+        <span data-i18n="bpg.h1.line1">Six barbers.</span><br/>
+        <span class="text-dim" data-i18n="bpg.h1.line2">One bench. Pick your hand.</span>
+      </h1>
+      <p class="reveal mt-8 max-w-[560px] text-dim text-base md:text-lg leading-relaxed" data-delay="2" data-i18n="bpg.sub">
+        Every cut booked at NORTH&amp;HALE is tied to a single barber.
+      </p>
+    </div>
+  </section>
+
+  <section class="px-6 md:px-12 pb-20 md:pb-32">
+    <div class="max-w-[1400px] mx-auto">
+      <div id="barbers-grid" class="grid grid-cols-12 gap-5"></div>
+    </div>
+  </section>
+
+  <section class="px-6 md:px-12 py-24 md:py-32 border-t hairline">
+    <div class="max-w-[1400px] mx-auto">
+      <div class="bezel reveal">
+        <div class="bezel-core p-10 md:p-20 text-center flex flex-col items-center">
+          <span class="eyebrow" data-i18n="bpg.cta.eyebrow">Pick a hand</span>
+          <h2 class="font-display text-4xl md:text-7xl mt-8 leading-[0.92]">
+            <span data-i18n="bpg.cta.line1">Met the bench?</span><br/>
+            <span class="text-dim" data-i18n="bpg.cta.line2">Pick a chair.</span>
+          </h2>
+          <a class="cta mt-10" href="book.html">
+            <span data-i18n="hero.cta.reserve">Reserve a chair</span>
+            <span class="nub" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="px-6 md:px-12 py-12 border-t hairline">
+    <div class="max-w-[1400px] mx-auto flex flex-wrap justify-between text-[10px] tracking-[0.2em] uppercase text-faint gap-4">
+      <span data-i18n="footer.copy">© 2026 NORTH&amp;HALE BARBERS</span>
+      <span data-i18n="footer.addr.short">OLAYA · RIYADH</span>
+      <span data-i18n="footer.proto">PROTOTYPE BUILD</span>
+    </div>
+  </footer>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/i18n.js"></script>
+  <script src="assets/ui.js"></script>
+  <script>
+    (function () {
+      const grid = document.getElementById('barbers-grid');
+      const tones = {
+        amber:  'background: radial-gradient(ellipse 80% 60% at 30% 20%, rgba(232,168,124,0.42), transparent 65%), linear-gradient(140deg, #1a1612 0%, #050505 100%);',
+        cobalt: 'background: radial-gradient(ellipse 80% 60% at 30% 20%, rgba(91,141,239,0.38), transparent 65%), linear-gradient(140deg, #0e121a 0%, #050505 100%);',
+        signal: 'background: radial-gradient(ellipse 80% 60% at 30% 20%, rgba(200,232,112,0.30), transparent 65%), linear-gradient(140deg, #131613 0%, #050505 100%);',
+        mono:   'background: radial-gradient(ellipse 80% 60% at 30% 20%, rgba(255,255,255,0.10), transparent 65%), linear-gradient(140deg, #141414 0%, #050505 100%);'
+      };
+
+      function render() {
+        const yr = BP3.t('bpg.years');
+        const bookWith = BP3.t('bpg.book_with');
+        const reviewsLabel = BP3.getLang() === 'ar' ? 'آخر التقييمات' : 'Recent reviews';
+        const html = BP3.BARBERS.map(function (b, i) {
+          const firstName = BP3.L(b.name).split(' ')[0];
+          const specialties = BP3.L(b.specialties);
+          return `<article class="bento-cell col-span-12 md:col-span-6 lg:col-span-4 bezel lift reveal is-visible" data-delay="${(i % 3) + 1}">
+            <div class="bezel-core p-3">
+              <div class="monogram" style="${tones[b.tone] || tones.mono}">
+                <div class="monogram-letter">${esc(b.letter)}</div>
+                <div class="monogram-tag">
+                  <div>
+                    <div class="name">${esc(BP3.L(b.name))}</div>
+                    <div class="role">${esc(BP3.L(b.role))}</div>
+                  </div>
+                  <div class="yr" data-ltr>${b.years} ${esc(yr)}</div>
+                </div>
+              </div>
+              <div class="p-6 pt-7 space-y-5">
+                <div class="monogram-rating-bar !mt-0 !pt-0 !border-0">${BP3.renderRating(b.rating, b.reviews)}</div>
+                <p class="text-dim text-sm leading-relaxed">${esc(BP3.L(b.bio))}</p>
+                <div class="flex flex-wrap gap-2">
+                  ${specialties.map(function (s) {
+                    return `<span class="text-[10px] tracking-[0.18em] uppercase text-faint border hairline rounded-full px-3 py-1.5">${esc(s)}</span>`;
+                  }).join('')}
+                </div>
+                ${(b.quotes && b.quotes.length) ? `
+                  <div class="review-list">
+                    <div class="review-heading">
+                      <span class="label">${esc(reviewsLabel)}</span>
+                      <span class="font-mono-tag text-[11px] text-faint tracking-[0.1em]" data-ltr>${b.reviews} ${esc(BP3.getLang() === 'ar' ? 'تقييم' : 'reviews')}</span>
+                    </div>
+                    ${b.quotes.map(function (q) {
+                      const pct = Math.max(0, Math.min(100, (q.stars / 5) * 100));
+                      return `<div class="review-item">
+                        <div class="review-head">
+                          <span class="rating rating-sm"><span class="stars" style="--fill:${pct}%"></span></span>
+                          <span class="review-by">${esc(BP3.L(q.by))} · ${esc(BP3.L(q.when))}</span>
+                        </div>
+                        <p class="review-quote">${esc(BP3.L(q.text))}</p>
+                      </div>`;
+                    }).join('')}
+                  </div>
+                ` : ''}
+                <div class="pt-2">
+                  <a class="cta-ghost" href="book.html?barber=${encodeURIComponent(b.id)}">
+                    <span>${esc(bookWith)} ${esc(firstName)}</span>
+                    <span class="nub" aria-hidden="true">
+                      <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>`;
+        }).join('');
+        grid.innerHTML = html;
+      }
+
+      function esc(s) {
+        return String(s).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
+      if (document.readyState !== 'loading') render();
+      else document.addEventListener('DOMContentLoaded', render);
+      document.addEventListener('bp3:langchange', render);
+    })();
+  </script>
+</body>
+</html>

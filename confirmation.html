@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>You're booked — NORTH&amp;HALE</title>
+  <meta name="theme-color" content="#050505" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23f5f4f1'/><text x='16' y='22' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='18' fill='%23050505'>N</text></svg>" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body class="bg-bg text-ink antialiased">
+  <div class="mesh-bg"></div>
+  <div class="grain"></div>
+
+  <nav class="nav-pill" aria-label="Primary">
+    <a class="nav-mark" href="index.html" data-nav>NORTH<span class="text-faint">&amp;</span>HALE</a>
+    <div class="nav-links">
+      <a href="index.html"    data-nav data-i18n="nav.shop">Shop</a>
+      <a href="services.html" data-nav data-i18n="nav.services">Services</a>
+      <a href="barbers.html"  data-nav data-i18n="nav.barbers">Barbers</a>
+      <a href="admin.html"    data-nav class="admin-link"><span class="admin-dot" aria-hidden="true"></span><span data-i18n="nav.admin">Admin</span></a>
+    </div>
+    <div class="lang-toggle" data-lang-toggle role="group" aria-label="Language">
+      <button type="button" data-set-lang="en" class="active">EN</button>
+      <button type="button" data-set-lang="ar">عربي</button>
+    </div>
+    <a class="nav-cta" href="book.html"><span data-i18n="nav.book">Book</span>
+      <span class="nub" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </a>
+    <button class="nav-burger" data-burger aria-label="Open menu" data-i18n-attr="aria-label:nav.open_menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-overlay" data-overlay>
+    <a href="index.html"    data-i18n="nav.shop">Shop</a>
+    <a href="services.html" data-i18n="nav.services">Services</a>
+    <a href="barbers.html"  data-i18n="nav.barbers">Barbers</a>
+    <a href="admin.html"    class="admin-link"><span class="admin-dot" aria-hidden="true"></span><span data-i18n="nav.admin">Admin</span></a>
+    <a href="book.html"     data-i18n="nav.reserve">Reserve a chair</a>
+    <div class="lang-toggle" data-lang-toggle role="group" aria-label="Language" style="align-self:flex-start;margin-top:1rem;">
+      <button type="button" data-set-lang="en" class="active">EN</button>
+      <button type="button" data-set-lang="ar">عربي</button>
+    </div>
+    <div class="nav-overlay-meta">
+      <span data-i18n="nav.meta_year">NORTH&amp;HALE · EST. 2019</span>
+      <span data-i18n="nav.meta_hours">OPEN DAILY</span>
+    </div>
+  </div>
+
+  <section class="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12">
+    <div class="max-w-[1100px] mx-auto" id="root"></div>
+  </section>
+
+  <footer class="px-6 md:px-12 py-12 border-t hairline">
+    <div class="max-w-[1100px] mx-auto flex flex-wrap justify-between text-[10px] tracking-[0.2em] uppercase text-faint gap-4">
+      <span data-i18n="footer.copy">© 2026 NORTH&amp;HALE BARBERS</span>
+      <span data-i18n="footer.addr.short">OLAYA · RIYADH</span>
+      <span data-i18n="footer.proto">PROTOTYPE BUILD</span>
+    </div>
+  </footer>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/i18n.js"></script>
+  <script src="assets/ui.js"></script>
+  <script>
+    (function () {
+      const root = document.getElementById('root');
+
+      function render() {
+        const raw = localStorage.getItem('bp3.confirmed');
+        if (!raw) {
+          root.innerHTML = `
+            <div class="bezel">
+              <div class="bezel-core p-10 md:p-20 text-center">
+                <span class="eyebrow">${esc(BP3.t('cf.none.eyebrow'))}</span>
+                <h1 class="font-display mt-7 text-5xl md:text-7xl leading-[0.92]">${esc(BP3.t('cf.none.h1'))}</h1>
+                <p class="text-dim mt-6 max-w-[420px] mx-auto leading-relaxed">${esc(BP3.t('cf.none.sub'))}</p>
+                <a class="cta mt-10" href="book.html">
+                  <span>${esc(BP3.t('cf.none.cta'))}</span>
+                  <span class="nub" aria-hidden="true">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </a>
+              </div>
+            </div>`;
+          return;
+        }
+
+        let booking;
+        try { booking = JSON.parse(raw); }
+        catch (e) {
+          root.innerHTML = `<p class="text-dim">${esc(BP3.t('cf.none.h1'))}</p>`;
+          return;
+        }
+
+        const b = BP3.findBarber(booking.barberId);
+        /* Support both new multi-service array and legacy single-service id */
+        const serviceIds = Array.isArray(booking.serviceIds) && booking.serviceIds.length
+          ? booking.serviceIds
+          : (booking.serviceId ? [booking.serviceId] : []);
+        const services = serviceIds.map(BP3.findService).filter(Boolean);
+        const totalPrice    = services.reduce(function (sum, x) { return sum + x.price; }, 0);
+        const totalDuration = services.reduce(function (sum, x) { return sum + x.duration; }, 0);
+        const dateLong = booking.dateIso ? BP3.formatDateLong(booking.dateIso) : '—';
+        const timeStr  = booking.hour !== null ? BP3.formatTime12(booking.hour, 0) : '—';
+        const yr       = BP3.t('cf.years.short');
+        const minLabel = BP3.t('cf.duration.short');
+        const firstName = BP3.L(b ? b.name : '').split(' ')[0];
+
+        root.innerHTML = `
+          <div>
+            <span class="eyebrow"><span style="background:#c8e870;box-shadow:0 0 8px #c8e870" class="inline-block w-1.5 h-1.5 rounded-full"></span> ${esc(BP3.t('cf.eyebrow.confirmed'))} · <span data-ltr>${esc(booking.code)}</span></span>
+            <h1 class="font-display mt-7 leading-[0.92]" style="font-size: clamp(2.5rem, 9vw, 8rem);">
+              ${esc(BP3.t('cf.h1.line1'))}<br/>
+              <span class="text-dim">${esc(BP3.t('cf.h1.line2'))}</span>
+            </h1>
+            <p class="mt-7 text-dim max-w-[560px] text-base md:text-lg leading-relaxed">${esc(BP3.t('cf.lede'))}</p>
+          </div>
+
+          <div class="mt-14 grid grid-cols-12 gap-5">
+            <div class="col-span-12 lg:col-span-7 bezel">
+              <div class="bezel-core p-7 md:p-10">
+                <div class="flex items-start justify-between gap-4 flex-wrap">
+                  <span class="eyebrow">${esc(BP3.t('cf.receipt'))}</span>
+                  <span class="font-mono-tag text-xs text-dim tracking-[0.14em]" data-ltr>${esc(BP3.t('cf.code'))} · ${esc(booking.code)}</span>
+                </div>
+
+                <div class="mt-10 space-y-6">
+                  <div class="flex items-end justify-between gap-4 pb-5 border-b hairline">
+                    <div>
+                      <div class="text-[10px] tracking-[0.2em] uppercase text-faint">${esc(BP3.t('cf.barber'))}</div>
+                      <div class="font-display text-2xl md:text-3xl mt-2">${esc(b ? BP3.L(b.name) : '—')}</div>
+                    </div>
+                    <div class="text-right">
+                      <div class="text-[10px] tracking-[0.2em] uppercase text-faint">${esc(BP3.t('cf.years'))}</div>
+                      <div class="font-mono-tag text-base mt-2" data-ltr>${b ? b.years : '—'} ${esc(yr)}</div>
+                    </div>
+                  </div>
+
+                  <div class="pb-5 border-b hairline">
+                    <div class="flex items-start justify-between gap-4 mb-3">
+                      <div class="text-[10px] tracking-[0.2em] uppercase text-faint">${esc(BP3.t('cf.service'))}</div>
+                      <div class="text-right">
+                        <div class="text-[10px] tracking-[0.2em] uppercase text-faint">${esc(BP3.t('cf.duration'))}</div>
+                        <div class="font-mono-tag text-base mt-1" data-ltr>${services.length ? totalDuration : '—'} ${esc(minLabel)}</div>
+                      </div>
+                    </div>
+                    ${services.length
+                      ? services.map(function (sv) {
+                          return `<div class="flex items-center justify-between gap-3 py-1">
+                            <span class="font-display text-xl md:text-2xl">${esc(BP3.L(sv.name))}</span>
+                            <span class="font-mono-tag text-sm text-dim" data-ltr>${BP3.formatPrice(sv.price)}</span>
+                          </div>`;
+                        }).join('')
+                      : `<div class="font-display text-2xl text-faint">—</div>`}
+                  </div>
+
+                  <div class="flex items-end justify-between gap-4 pb-5 border-b hairline">
+                    <div>
+                      <div class="text-[10px] tracking-[0.2em] uppercase text-faint">${esc(BP3.t('cf.when'))}</div>
+                      <div class="font-display text-2xl md:text-3xl mt-2">${esc(dateLong)}</div>
+                    </div>
+                    <div class="text-right">
+                      <div class="text-[10px] tracking-[0.2em] uppercase text-faint">${esc(BP3.t('cf.time'))}</div>
+                      <div class="font-display text-2xl md:text-3xl mt-2">${esc(timeStr)}</div>
+                    </div>
+                  </div>
+
+                  <div class="flex items-end justify-between gap-4 pb-5 border-b hairline">
+                    <div>
+                      <div class="text-[10px] tracking-[0.2em] uppercase text-faint">${esc(BP3.t('cf.where'))}</div>
+                      <div class="font-display text-xl md:text-2xl mt-2" data-i18n="footer.address">Centria Mall, Floor 2<br/>Olaya · Riyadh</div>
+                    </div>
+                    <a class="cta-ghost !py-2 !px-3 !text-xs" href="https://maps.google.com/?q=Centria+Mall+Riyadh" target="_blank" rel="noopener">
+                      <span>${esc(BP3.t('cf.directions'))}</span>
+                      <span class="nub !w-6 !h-6" aria-hidden="true">
+                        <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </span>
+                    </a>
+                  </div>
+
+                  <div class="flex items-end justify-between gap-4">
+                    <span class="text-[10px] tracking-[0.2em] uppercase text-faint">${esc(BP3.t('cf.total'))}</span>
+                    <span class="font-display text-4xl md:text-5xl" data-ltr>${services.length ? BP3.formatPrice(totalPrice) : (BP3.getLang() === 'ar' ? '0 ر.س' : 'SAR 0')}</span>
+                  </div>
+                </div>
+
+                ${booking.notes ? `
+                  <div class="mt-8 pt-6 border-t hairline">
+                    <div class="text-[10px] tracking-[0.2em] uppercase text-faint mb-2">${esc(BP3.t('cf.notes_for'))} ${esc(firstName)}</div>
+                    <p class="text-dim leading-relaxed">${esc(booking.notes)}</p>
+                  </div>` : ''}
+              </div>
+            </div>
+
+            <div class="col-span-12 lg:col-span-5 space-y-5">
+              <div class="bezel">
+                <div class="bezel-core p-7 md:p-8">
+                  <span class="eyebrow">${esc(BP3.t('cf.for'))} ${esc(booking.name)}</span>
+                  <div class="mt-5 font-display text-2xl">${esc(booking.name)}</div>
+                  <div class="text-dim mt-1 font-mono-tag text-sm" data-ltr>${esc(booking.phone)}</div>
+
+                  <div class="mt-5 pt-5 border-t hairline flex items-center justify-between gap-3">
+                    <span class="text-[10px] tracking-[0.2em] uppercase text-faint">${esc(BP3.t('cf.code'))}</span>
+                    <span class="font-mono-tag text-base tracking-[0.18em] whitespace-nowrap" data-ltr>${esc(booking.code)}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bezel">
+                <div class="bezel-core p-7 md:p-8">
+                  <span class="eyebrow">${esc(BP3.t('cf.change'))}</span>
+                  <p class="text-dim mt-5 text-sm leading-relaxed">${esc(BP3.t('cf.change.sub'))}</p>
+                  <div class="mt-5 flex items-center justify-between gap-3 flex-wrap">
+                    <span class="font-display text-2xl whitespace-nowrap" data-ltr>${esc(BP3.t('cf.phone.value'))}</span>
+                    <span class="font-mono-tag text-xs text-faint tracking-[0.14em] whitespace-nowrap">${esc(BP3.t('cf.phone.label'))}</span>
+                  </div>
+                  <div class="mt-4 pt-4 border-t hairline flex items-center justify-between gap-3 flex-wrap">
+                    <span class="font-mono-tag text-lg whitespace-nowrap" data-ltr>${esc(booking.code)}</span>
+                    <span class="font-mono-tag text-xs text-faint tracking-[0.14em] whitespace-nowrap">${esc(BP3.t('cf.code'))}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+      }
+
+      function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
+      if (document.readyState !== 'loading') render();
+      else document.addEventListener('DOMContentLoaded', render);
+      document.addEventListener('bp3:langchange', render);
+    })();
+  </script>
+</body>
+</html>

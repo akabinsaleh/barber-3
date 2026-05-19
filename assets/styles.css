@@ -1,0 +1,1556 @@
+/* ============================================================
+   FONT IMPORTS — Fontshare (Latin) + Google Fonts (Arabic)
+   ============================================================ */
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=geist@300,400,500,600&f[]=cabinet-grotesk@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
+
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  /* Surfaces */
+  --bg: #050505;
+  --bg-elev: #0a0a0a;
+  --ink: #f5f4f1;
+  --ink-dim: #a7a59f;
+  --ink-faint: #56544f;
+
+  /* Hairlines & glass */
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --glass: rgba(255, 255, 255, 0.04);
+  --glass-strong: rgba(255, 255, 255, 0.07);
+  --inset-hi: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  /* Accents (used sparingly) */
+  --amber: #e8a87c;
+  --cobalt: #5b8def;
+  --signal: #c8e870;
+
+  /* Motion */
+  --easing: cubic-bezier(0.32, 0.72, 0, 1);
+  --easing-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 220ms;
+  --dur: 480ms;
+  --dur-slow: 800ms;
+}
+
+/* ============================================================
+   BASE LAYER
+   ============================================================ */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+  min-height: 100dvh;
+}
+
+/* At mobile widths, hide the document scrollbar — matches iOS/Android overlay-scrollbar
+   behavior and prevents Chrome DevTools mobile-emulation from drawing a 15px gutter
+   on the leading edge in RTL, which would push content off-center.
+   Note: the scrollbar lives on <html>, not <body>, in standards mode. */
+@media (max-width: 768px) {
+  html { scrollbar-width: none; }
+  html::-webkit-scrollbar { display: none; }
+}
+
+::selection {
+  background: var(--amber);
+  color: #000;
+}
+
+/* ============================================================
+   TYPOGRAPHY UTILITIES
+   ============================================================ */
+.font-display {
+  font-family: 'Clash Display', 'Cabinet Grotesk', ui-sans-serif, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+}
+
+.font-mono-tag {
+  font-family: 'Geist', monospace;
+  font-feature-settings: 'tnum' 1;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--signal);
+  box-shadow: 0 0 8px var(--signal);
+}
+
+/* ============================================================
+   MESH GRADIENT BACKGROUND
+   ============================================================ */
+.mesh-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 12% 18%, rgba(232, 168, 124, 0.10), transparent 60%),
+    radial-gradient(ellipse 50% 60% at 88% 78%, rgba(91, 141, 239, 0.10), transparent 60%),
+    radial-gradient(ellipse 70% 40% at 50% 110%, rgba(200, 232, 112, 0.05), transparent 60%),
+    var(--bg);
+}
+
+/* Grain overlay — premium film texture */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.2 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* ============================================================
+   DOUBLE-BEZEL CARD (the "machined hardware" enclosure)
+   ============================================================ */
+.bezel {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: 2rem;
+  padding: 0.375rem;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 32px 80px -30px rgba(0, 0, 0, 0.7);
+  transition: transform var(--dur) var(--easing), border-color var(--dur) var(--easing);
+}
+
+.bezel-core {
+  background: linear-gradient(180deg, #0d0d0e 0%, #070708 100%);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: calc(2rem - 0.375rem);
+  box-shadow: var(--inset-hi);
+  position: relative;
+  overflow: hidden;
+}
+
+.bezel:hover {
+  border-color: var(--line-strong);
+}
+
+/* .bezel.lift left as a no-op hook — hover changes border only, no translate */
+.bezel.lift:hover { /* intentionally no transform */ }
+
+/* ============================================================
+   NESTED CTA — "Button in Button" with magnetic hover
+   ============================================================ */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.875rem 1.25rem 0.875rem 1.75rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #050505;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: -0.005em;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform var(--dur) var(--easing), background var(--dur) var(--easing);
+  white-space: nowrap;
+}
+
+.cta:hover { background: #fff; }
+.cta:active { transform: scale(0.98); }
+
+.cta .nub {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: rgba(5, 5, 5, 0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--dur) var(--easing), background var(--dur) var(--easing);
+}
+
+.cta:hover .nub {
+  background: rgba(5, 5, 5, 0.16);
+}
+
+.cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.875rem 1.25rem 0.875rem 1.5rem;
+  border-radius: 999px;
+  background: var(--glass);
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 0.95rem;
+  border: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition: transform var(--dur) var(--easing), background var(--dur) var(--easing), border-color var(--dur) var(--easing);
+  white-space: nowrap;
+}
+
+.cta-ghost:hover {
+  background: var(--glass-strong);
+  border-color: var(--line-strong);
+}
+
+.cta-ghost:active { transform: scale(0.98); }
+
+.cta-ghost .nub {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--dur) var(--easing);
+}
+
+.cta-ghost:hover .nub {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Disabled state for CTAs */
+.cta[disabled],
+.cta-ghost[disabled] {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================================
+   FLOATING NAV PILL
+   ============================================================ */
+.nav-pill {
+  position: fixed;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  box-shadow: 0 18px 50px -20px rgba(0, 0, 0, 0.7);
+  max-width: calc(100vw - 2rem);
+}
+
+.nav-mark {
+  font-family: 'Clash Display', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  padding-right: 0.75rem;
+  border-right: 1px solid var(--line);
+  margin-right: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.nav-mark::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--ink);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.nav-links a {
+  color: var(--ink-dim);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: color var(--dur) var(--easing), background var(--dur) var(--easing);
+}
+
+.nav-links a:hover { color: var(--ink); background: var(--glass); }
+.nav-links a.active { color: var(--ink); background: var(--glass-strong); }
+
+/* Admin link — subtle internal indicator */
+.nav-links a.admin-link,
+.nav-overlay a.admin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.admin-link .admin-dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: var(--signal);
+  box-shadow: 0 0 6px var(--signal);
+  flex-shrink: 0;
+}
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.55rem 0.55rem 1rem;
+  background: var(--ink);
+  color: #050505;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background var(--dur) var(--easing);
+}
+
+.nav-cta:hover { background: #fff; }
+
+.nav-cta .nub {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 999px;
+  background: rgba(5, 5, 5, 0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile menu trigger */
+.nav-burger {
+  display: none;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.nav-burger span {
+  position: absolute;
+  width: 14px;
+  height: 1.5px;
+  background: var(--ink);
+  border-radius: 1px;
+  transition: transform var(--dur) var(--easing), opacity var(--dur) var(--easing);
+}
+
+.nav-burger span:nth-child(1) { transform: translateY(-4px); }
+.nav-burger span:nth-child(2) { transform: translateY(4px); }
+
+.nav-burger.open span:nth-child(1) { transform: translateY(0) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { transform: translateY(0) rotate(-45deg); }
+
+/* Mobile menu overlay */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: rgba(5, 5, 5, 0.8);
+  backdrop-filter: blur(40px) saturate(140%);
+  -webkit-backdrop-filter: blur(40px) saturate(140%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur) var(--easing);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 6rem 2rem 4rem;
+  gap: 0.5rem;
+}
+
+.nav-overlay.open { opacity: 1; pointer-events: auto; }
+
+.nav-overlay a {
+  font-family: 'Clash Display', sans-serif;
+  font-weight: 600;
+  font-size: clamp(2.5rem, 12vw, 5rem);
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: var(--ink);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.35s var(--easing-out);
+}
+
+.nav-overlay.open a { opacity: 1; }
+.nav-overlay.open a:nth-child(2) { transition-delay: 30ms; }
+.nav-overlay.open a:nth-child(3) { transition-delay: 60ms; }
+.nav-overlay.open a:nth-child(4) { transition-delay: 90ms; }
+.nav-overlay.open a:nth-child(5) { transition-delay: 120ms; }
+
+.nav-overlay-meta {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  right: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--line);
+  padding-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .nav-pill { padding: 0.4rem 0.4rem 0.4rem 1rem; }
+  .nav-links, .nav-cta { display: none; }
+  .nav-burger { display: inline-flex; }
+}
+
+/* ============================================================
+   SCROLL-IN REVEAL
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transition: opacity 0.5s var(--easing-out);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+}
+
+/* Modest stagger only — keep the eye on the content, not the choreography */
+.reveal[data-delay="1"] { transition-delay: 40ms; }
+.reveal[data-delay="2"] { transition-delay: 80ms; }
+.reveal[data-delay="3"] { transition-delay: 120ms; }
+.reveal[data-delay="4"] { transition-delay: 160ms; }
+.reveal[data-delay="5"] { transition-delay: 200ms; }
+.reveal[data-delay="6"] { transition-delay: 240ms; }
+
+/* ============================================================
+   MONOGRAM PORTRAIT (SVG-based barber avatars)
+   ============================================================ */
+.monogram {
+  aspect-ratio: 5 / 4;
+  width: 100%;
+  border-radius: calc(2rem - 0.375rem);
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+}
+
+.monogram::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 100% 60% at 50% 0%, rgba(255, 255, 255, 0.08), transparent 60%),
+    linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.6) 100%);
+  pointer-events: none;
+}
+
+.monogram-letter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Clash Display', sans-serif;
+  font-weight: 700;
+  font-size: clamp(4rem, 12vw, 8rem);
+  letter-spacing: -0.06em;
+  color: rgba(255, 255, 255, 0.92);
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+.monogram-tag {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  color: var(--ink);
+  gap: 0.5rem;
+}
+
+.monogram-tag .name {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.monogram-tag .role {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-top: 0.35rem;
+}
+
+.monogram-tag .yr {
+  font-family: 'Geist', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--ink-dim);
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ============================================================
+   RATING (5-star with review count)
+   ============================================================ */
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Geist', monospace;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--ink-dim);
+}
+
+.rating-sm { font-size: 12px; gap: 0.5rem; }
+
+.stars {
+  position: relative;
+  display: inline-block;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.14);
+  white-space: nowrap;
+  font-feature-settings: normal;
+}
+
+.rating-sm .stars { font-size: 14px; }
+
+.rating-num { font-size: 1em; font-weight: 500; color: var(--ink); }
+
+.stars::before {
+  content: '★★★★★';
+}
+
+.stars::after {
+  content: '★★★★★';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--fill, 0%);
+  overflow: hidden;
+  color: var(--amber);
+  white-space: nowrap;
+}
+
+html[dir="rtl"] .stars::after {
+  left: auto;
+  right: 0;
+}
+
+.rating-num { color: var(--ink); font-weight: 500; }
+.rating-count { color: var(--ink-faint); }
+
+/* Review list — fake customer quotes under a barber card */
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid var(--line);
+}
+
+.review-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.review-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.review-by {
+  font-family: 'Geist', monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+}
+
+/* Hero marquee review items (smaller, vertical stack) */
+.review-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.review-author {
+  font-family: 'Geist', monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+}
+
+/* Inside the hero marquee tile, make review-quote a little smaller and snappy */
+#review-marquee .review-item {
+  gap: 0.25rem;
+}
+#review-marquee .review-quote {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink);
+  /* clamp to ~3 lines so the marquee paces evenly */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.review-quote {
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.lang-ar .review-quote,
+html[dir="rtl"] .review-quote {
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.review-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.review-heading .label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.lang-ar .review-heading .label,
+html[dir="rtl"] .review-heading .label {
+  text-transform: none;
+  letter-spacing: 0.04em;
+  font-size: 11px;
+}
+
+/* When inside a monogram-tag, override the .yr-like spacing */
+.monogram-rating-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+/* ============================================================
+   FORM CONTROLS (booking flow)
+   ============================================================ */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.field-label {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.field-input {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  transition: border-color var(--dur) var(--easing), background var(--dur) var(--easing);
+  width: 100%;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: var(--ink-dim);
+  background: #0e0e0e;
+}
+
+.field-input::placeholder { color: var(--ink-faint); }
+
+textarea.field-input {
+  min-height: 110px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+/* Selectable cards (barber/service/time slots) */
+.choice {
+  position: relative;
+  cursor: pointer;
+  transition: transform var(--dur) var(--easing), border-color var(--dur) var(--easing);
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+}
+
+.choice .bezel-core {
+  transition: border-color var(--dur) var(--easing), background var(--dur) var(--easing);
+}
+
+.choice:hover .bezel-core {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.choice.selected .bezel { border-color: var(--ink); }
+.choice.selected .bezel-core {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: linear-gradient(180deg, #131313 0%, #0a0a0a 100%);
+}
+
+.choice.selected::after {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: var(--signal);
+  box-shadow: 0 0 22px rgba(200, 232, 112, 0.45);
+  z-index: 2;
+}
+
+/* Time slot pills */
+.slot {
+  min-height: 48px;
+  padding: 0.75rem 1rem;
+  border-radius: 0.85rem;
+  border: 1px solid var(--line);
+  background: var(--glass);
+  color: var(--ink);
+  font-family: 'Geist', monospace;
+  font-feature-settings: 'tnum' 1;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--dur) var(--easing), background var(--dur) var(--easing), transform var(--dur) var(--easing);
+  text-align: center;
+}
+
+.slot:hover {
+  border-color: var(--line-strong);
+  background: var(--glass-strong);
+}
+
+.slot.selected {
+  background: var(--ink);
+  color: #050505;
+  border-color: var(--ink);
+}
+
+.slot[disabled] {
+  opacity: 0.25;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* Date strip */
+.date-strip {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 0.25rem 0 1rem;
+  margin: 0 -1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  scrollbar-width: none;
+}
+
+.date-strip::-webkit-scrollbar { display: none; }
+
+.date-card {
+  flex: 0 0 auto;
+  min-width: 88px;
+  padding: 0.85rem 0.75rem;
+  border-radius: 1rem;
+  border: 1px solid var(--line);
+  background: var(--glass);
+  text-align: center;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: border-color var(--dur) var(--easing), background var(--dur) var(--easing);
+}
+
+.date-card:hover { border-color: var(--line-strong); }
+
+.date-card .dow {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  display: block;
+}
+
+.date-card .day {
+  font-family: 'Clash Display', sans-serif;
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1;
+  margin-top: 0.35rem;
+  color: var(--ink);
+}
+
+.date-card .mon {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-top: 0.35rem;
+  display: block;
+}
+
+.date-card.selected {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.date-card.selected .dow,
+.date-card.selected .day,
+.date-card.selected .mon { color: #050505; }
+
+/* ============================================================
+   BOOKING STEPPER RAIL
+   ============================================================ */
+.step-rail {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 3rem;
+}
+
+.step-rail .step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink-faint);
+  transition: color var(--dur) var(--easing), border-color var(--dur) var(--easing);
+}
+
+.step-rail .step.active,
+.step-rail .step.done {
+  color: var(--ink);
+  border-top-color: var(--ink);
+}
+
+.step-rail .step .n {
+  font-family: 'Geist', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+}
+
+.step-rail .step .t {
+  font-family: 'Clash Display', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 640px) {
+  .step-rail .step .t { font-size: 0.78rem; }
+}
+
+/* ============================================================
+   STICKY BOOKING BAR (mobile thumb-zone CTA)
+   ============================================================ */
+.book-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  background: rgba(8, 8, 8, 0.86);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+@media (max-width: 768px) {
+  .book-bar {
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 20;
+    border-radius: 1.25rem;
+  }
+  body.book-page { padding-bottom: 7rem; }
+}
+
+.book-bar .summary {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.82rem;
+  color: var(--ink-dim);
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.book-bar .summary > span,
+.book-bar .summary strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book-bar .summary strong {
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 480px) {
+  .book-bar { gap: 0.6rem; padding: 0.85rem 0.95rem; }
+  .book-bar .summary { display: none; }
+}
+
+/* ============================================================
+   SERVICE LIST (editorial flat rows — landing page)
+   ============================================================ */
+.service-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.service-list li {
+  border-bottom: 1px solid var(--line);
+}
+
+.service-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 1rem 2rem;
+  padding: 1.15rem 0.25rem;
+  color: var(--ink);
+  text-decoration: none;
+  transition: padding-left var(--dur) var(--easing), color var(--dur) var(--easing);
+}
+
+.service-row:hover {
+  padding-left: 1rem;
+}
+
+.service-num {
+  font-family: 'Geist', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--ink-faint);
+  align-self: start;
+  padding-top: 0.65rem;
+  min-width: 2.25rem;
+}
+
+.service-body { min-width: 0; }
+
+.service-name {
+  font-size: clamp(1.5rem, 2.8vw, 2.15rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin: 0;
+}
+
+.service-desc {
+  color: var(--ink-dim);
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  max-width: 56ch;
+}
+
+.service-meta {
+  font-family: 'Geist', monospace;
+  font-feature-settings: 'tnum' 1;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--ink-dim);
+  white-space: nowrap;
+  align-self: start;
+  padding-top: 0.85rem;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.service-row:hover .service-meta { color: var(--ink); }
+
+/* The numbered tier label only appears on mobile tile layout */
+.service-tier { display: none; }
+.service-sep { color: var(--ink-faint); }
+
+@media (max-width: 768px) {
+  /* Mobile: editorial service list becomes a tight 2-column tile grid */
+  .service-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.6rem;
+    border-top: none;
+  }
+  .service-list li {
+    border-bottom: none;
+    min-width: 0;
+  }
+  .service-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    min-width: 0;
+    grid-template-areas:
+      "num"
+      "body"
+      "meta";
+    gap: 0.4rem 0.5rem;
+    padding: 0.85rem 0.95rem 0.95rem;
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    background: linear-gradient(160deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%);
+    min-height: 122px;
+  }
+  .service-row:hover,
+  .service-row:focus-visible {
+    padding-left: 0.95rem;
+    background: linear-gradient(160deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%);
+    border-color: var(--line-strong);
+  }
+  .service-num {
+    grid-area: num;
+    padding-top: 0;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--ink-faint);
+    min-width: 0;
+    align-self: start;
+  }
+  .service-tier { display: none; }
+  .service-body {
+    grid-area: body;
+    min-width: 0;
+    align-self: center;
+  }
+  .service-name {
+    font-size: 1.05rem !important;
+    line-height: 1.1;
+    margin-top: 0.1rem;
+  }
+  .service-desc { display: none; }
+  .service-meta {
+    grid-area: meta;
+    padding-top: 0;
+    align-self: end;
+    gap: 0.4rem;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+  }
+  .service-price,
+  .service-duration {
+    white-space: nowrap;
+  }
+  .service-price {
+    font-family: 'Geist', monospace;
+    font-feature-settings: 'tnum' 1;
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .service-sep { color: var(--ink-faint); }
+  .service-duration {
+    font-family: 'Geist', monospace;
+    font-feature-settings: 'tnum' 1;
+    color: var(--ink-dim);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+  .service-row::after { content: none; }
+
+  /* The 5th tile spans both columns — single-row horizontal layout */
+  .service-list li:last-child:nth-child(odd) {
+    grid-column: span 2;
+  }
+  .service-list li:last-child:nth-child(odd) .service-row {
+    display: flex !important;
+    align-items: center;
+    gap: 0.85rem;
+    min-height: 0;
+    padding: 0.95rem 1.15rem;
+    grid-template-areas: none;
+  }
+  .service-list li:last-child:nth-child(odd) .service-tier { display: none; }
+  .service-list li:last-child:nth-child(odd) .service-num {
+    flex: 0 0 auto;
+    align-self: center;
+  }
+  .service-list li:last-child:nth-child(odd) .service-body { flex: 1 1 auto; align-self: center; }
+  .service-list li:last-child:nth-child(odd) .service-name {
+    font-size: 1.15rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .service-list li:last-child:nth-child(odd) .service-meta {
+    flex: 0 0 auto;
+    align-self: center;
+    padding-top: 0;
+  }
+}
+
+/* ============================================================
+   MARQUEE (hero accent — now reviews)
+   ============================================================ */
+.marquee {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  animation: marquee-vert 50s linear infinite;
+}
+
+@keyframes marquee-vert {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+.review-item {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.review-item:last-child { border-bottom: none; }
+
+.review-quote {
+  font-family: 'Clash Display', 'Cabinet Grotesk', ui-sans-serif, sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+html[dir="rtl"] .review-quote,
+.lang-ar .review-quote {
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.45;
+}
+
+.review-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.5rem;
+}
+
+.review-author {
+  font-family: 'Geist', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+}
+html[dir="rtl"] .review-author,
+.lang-ar .review-author {
+  font-family: 'Tajawal', sans-serif;
+}
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+.hairline { border-color: var(--line); }
+.hairline-strong { border-color: var(--line-strong); }
+
+.text-dim { color: var(--ink-dim); }
+.text-faint { color: var(--ink-faint); }
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Bento responsive helpers used inside Tailwind class context */
+@media (max-width: 768px) {
+  .bento-cell {
+    grid-column: span 12 !important;
+    grid-row: auto !important;
+  }
+
+  /* Services catalogue page: 2-column grid on mobile (was 1-column).
+     Overrides both the parent's 12-col grid and the .bento-cell mobile collapse. */
+  #services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.65rem !important;
+  }
+  #services-grid > .bento-cell {
+    grid-column: auto !important;
+    grid-row: auto !important;
+  }
+  #services-grid .bezel-core {
+    padding: 0.95rem 0.9rem 1rem !important;
+    min-height: 0 !important;
+  }
+  /* Tighten card internals so 2-up at 430px fits cleanly */
+  #services-grid .font-display {
+    font-size: 1.05rem !important;
+    margin-top: 1.25rem !important;
+    line-height: 1.1;
+  }
+  #services-grid p {
+    margin-top: 0.5rem !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+  }
+  #services-grid .eyebrow {
+    font-size: 9px;
+    padding: 0.25rem 0.55rem;
+    letter-spacing: 0.16em;
+  }
+  #services-grid .font-mono-tag {
+    font-size: 10px !important;
+    letter-spacing: 0.08em !important;
+  }
+  #services-grid .cta-ghost {
+    padding: 0.5rem 0.65rem 0.5rem 0.85rem !important;
+    font-size: 11px !important;
+    gap: 0.5rem !important;
+  }
+  #services-grid .cta-ghost .nub {
+    width: 1.4rem !important;
+    height: 1.4rem !important;
+  }
+  #services-grid .mt-7,
+  #services-grid .mt-10 {
+    margin-top: 0.85rem !important;
+  }
+
+  /* Landing page: featured barbers swipe horizontally instead of stacking */
+  #landing-barbers {
+    display: flex !important;
+    grid-template-columns: none !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 0.85rem;
+    margin: 0 -1.5rem;
+    padding: 0.25rem 1.5rem 0.75rem;
+    scrollbar-width: none;
+  }
+  #landing-barbers::-webkit-scrollbar { display: none; }
+  #landing-barbers > article {
+    flex: 0 0 78%;
+    min-width: 0;
+    grid-column: auto !important;
+    scroll-snap-align: start;
+  }
+  /* keep the third barber peeking visibly */
+  #landing-barbers > article:last-child { margin-right: 0.5rem; }
+  html[dir="rtl"] #landing-barbers > article:last-child { margin-right: 0; margin-left: 0.5rem; }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; filter: none; }
+}
+
+/* ============================================================
+   LANGUAGE TOGGLE (EN / AR pill inside nav)
+   ============================================================ */
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  margin: 0 0.25rem;
+}
+
+.lang-toggle button {
+  border: none;
+  background: transparent;
+  color: var(--ink-dim);
+  font-family: 'Geist', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color var(--dur) var(--easing), background var(--dur) var(--easing);
+}
+
+.lang-toggle button.active {
+  background: var(--ink);
+  color: #050505;
+}
+
+.lang-toggle button:hover:not(.active) { color: var(--ink); }
+
+@media (max-width: 640px) {
+  .lang-toggle button { padding: 0.3rem 0.55rem; font-size: 10px; }
+}
+
+/* ============================================================
+   HERO STATS (numbered KPI row in hero)
+   ============================================================ */
+.hero-stat-num {
+  display: flex;
+  align-items: baseline;
+  gap: 0.05em;
+  line-height: 1;
+}
+
+.hero-stat-num [data-ltr] {
+  display: inline-block;
+  font-feature-settings: 'tnum' 1;
+}
+
+.hero-stat-label {
+  line-height: 1.35;
+}
+
+html[dir="rtl"] .hero-stats .hero-stat {
+  text-align: right;
+}
+
+html[dir="rtl"] .hero-stat-num {
+  justify-content: flex-start;
+}
+
+html[dir="rtl"] .hero-stat-label {
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-size: 12px;
+}
+
+/* ============================================================
+   ARABIC TYPOGRAPHY & RTL OVERRIDES
+   ============================================================ */
+.lang-ar body,
+html[dir="rtl"] body {
+  font-family: 'Tajawal', 'Geist', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.lang-ar .font-display,
+html[dir="rtl"] .font-display,
+.lang-ar .monogram-tag .name,
+html[dir="rtl"] .monogram-tag .name,
+.lang-ar .service-name,
+html[dir="rtl"] .service-name,
+.lang-ar .nav-mark,
+html[dir="rtl"] .nav-mark,
+.lang-ar h1, .lang-ar h2, .lang-ar h3,
+html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3 {
+  font-family: 'Tajawal', ui-sans-serif, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+}
+
+.lang-ar .monogram-tag .name,
+html[dir="rtl"] .monogram-tag .name {
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.lang-ar .monogram-tag .role,
+html[dir="rtl"] .monogram-tag .role {
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* Eyebrow tag: Arabic shouldn't be uppercase or wide-tracked */
+.lang-ar .eyebrow,
+html[dir="rtl"] .eyebrow {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* Mono tag (durations, prices, codes) — keep Latin numerals readable */
+.lang-ar .font-mono-tag,
+html[dir="rtl"] .font-mono-tag {
+  font-family: 'Tajawal', 'Geist', monospace;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Arrow icons inside CTAs / nav point the wrong way in RTL — flip horizontally */
+.lang-ar .cta svg,
+.lang-ar .cta-ghost svg,
+.lang-ar .nav-cta svg,
+.lang-ar .nub svg,
+html[dir="rtl"] .cta svg,
+html[dir="rtl"] .cta-ghost svg,
+html[dir="rtl"] .nav-cta svg,
+html[dir="rtl"] .nub svg {
+  transform: scaleX(-1);
+}
+
+/* Padding on CTAs is asymmetric (more on left) — mirror it for RTL */
+.lang-ar .cta,
+html[dir="rtl"] .cta { padding: 0.875rem 1.75rem 0.875rem 1.25rem; }
+
+.lang-ar .cta-ghost,
+html[dir="rtl"] .cta-ghost { padding: 0.875rem 1.5rem 0.875rem 1.25rem; }
+
+/* Nav pill mark divider should sit on the LEFT in RTL */
+.lang-ar .nav-mark,
+html[dir="rtl"] .nav-mark {
+  padding-right: 0;
+  padding-left: 0.75rem;
+  margin-right: 0;
+  margin-left: 0.5rem;
+  border-right: none;
+  border-left: 1px solid var(--line);
+}
+
+.lang-ar .nav-cta,
+html[dir="rtl"] .nav-cta { padding: 0.55rem 1rem 0.55rem 0.55rem; }
+
+/* Service list hover should slide the row to the LEFT in RTL */
+.lang-ar .service-row:hover,
+html[dir="rtl"] .service-row:hover {
+  padding-left: 0.25rem;
+  padding-right: 1rem;
+}
+
+/* Numeric step prefixes ("01", "02") look better LTR even in RTL */
+.lang-ar .service-num,
+html[dir="rtl"] .service-num {
+  font-family: 'Geist', monospace;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Step-rail tickers keep their LTR numbers */
+.lang-ar .step-rail .step .n,
+html[dir="rtl"] .step-rail .step .n {
+  font-family: 'Geist', monospace;
+  direction: ltr;
+}
+
+/* Date strip: keep numbers/months as LTR isolates */
+.lang-ar .date-card .day,
+html[dir="rtl"] .date-card .day {
+  direction: ltr;
+}
+
+/* Slot pills: keep time numerals readable */
+.lang-ar .slot,
+html[dir="rtl"] .slot {
+  font-family: 'IBM Plex Sans Arabic', 'Geist', monospace;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Confirmation: keep the code group LTR */
+.lang-ar [data-ltr],
+html[dir="rtl"] [data-ltr] {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Marquee should still read top-to-bottom in both languages — no flip */
+
+/* Booking back-arrow already flipped via .cta-ghost rule above */
+
+/* Press feedback (active state) stays */
+

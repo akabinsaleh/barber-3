@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>NORTH&amp;HALE — Precision barbering, by appointment</title>
+  <meta name="description" content="A six-chair barbershop. Booked to the minute, cut by hand. Reserve a chair with one of our barbers." />
+  <meta name="theme-color" content="#050505" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23f5f4f1'/><text x='16' y='22' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='18' fill='%23050505'>N</text></svg>" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#050505', ink: '#f5f4f1', dim: '#a7a59f', faint: '#56544f',
+            amber: '#e8a87c', cobalt: '#5b8def', signal: '#c8e870'
+          },
+          fontFamily: {
+            display: ['"Clash Display"', 'ui-sans-serif', 'sans-serif'],
+            sans: ['Geist', 'ui-sans-serif', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-bg text-ink antialiased">
+  <div class="mesh-bg"></div>
+  <div class="grain"></div>
+
+  <!-- ========== NAV ========== -->
+  <nav class="nav-pill" aria-label="Primary">
+    <a class="nav-mark" href="index.html" data-nav>NORTH<span class="text-faint">&amp;</span>HALE</a>
+    <div class="nav-links">
+      <a href="index.html"    data-nav data-i18n="nav.shop">Shop</a>
+      <a href="services.html" data-nav data-i18n="nav.services">Services</a>
+      <a href="barbers.html"  data-nav data-i18n="nav.barbers">Barbers</a>
+      <a href="admin.html"    data-nav class="admin-link"><span class="admin-dot" aria-hidden="true"></span><span data-i18n="nav.admin">Admin</span></a>
+    </div>
+    <div class="lang-toggle" data-lang-toggle role="group" aria-label="Language">
+      <button type="button" data-set-lang="en" class="active">EN</button>
+      <button type="button" data-set-lang="ar">عربي</button>
+    </div>
+    <a class="nav-cta" href="book.html"><span data-i18n="nav.book">Book</span>
+      <span class="nub" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </a>
+    <button class="nav-burger" data-burger aria-label="Open menu" data-i18n-attr="aria-label:nav.open_menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-overlay" data-overlay>
+    <a href="index.html"    data-i18n="nav.shop">Shop</a>
+    <a href="services.html" data-i18n="nav.services">Services</a>
+    <a href="barbers.html"  data-i18n="nav.barbers">Barbers</a>
+    <a href="admin.html"    class="admin-link"><span class="admin-dot" aria-hidden="true"></span><span data-i18n="nav.admin">Admin</span></a>
+    <a href="book.html"     data-i18n="nav.reserve">Reserve a chair</a>
+    <div class="lang-toggle" data-lang-toggle role="group" aria-label="Language" style="align-self:flex-start;margin-top:1rem;">
+      <button type="button" data-set-lang="en" class="active">EN</button>
+      <button type="button" data-set-lang="ar">عربي</button>
+    </div>
+    <div class="nav-overlay-meta">
+      <span data-i18n="nav.meta_year">NORTH&amp;HALE · EST. 2019</span>
+      <span data-i18n="nav.meta_hours">OPEN DAILY</span>
+    </div>
+  </div>
+
+  <!-- ========== HERO ========== -->
+  <section class="relative pt-28 md:pt-32 pb-12 md:pb-16 px-6 md:px-12">
+    <div class="max-w-[1400px] mx-auto grid grid-cols-12 gap-6 md:gap-10 items-end">
+      <div class="col-span-12 md:col-span-8">
+        <span class="eyebrow reveal" data-delay="1" data-i18n="hero.eyebrow">Taking appointments — Spring / 2026</span>
+        <h1 class="font-display reveal mt-5" data-delay="2"
+            style="font-size: clamp(2.5rem, 8vw, 6.5rem);">
+          <span data-i18n="hero.h1.line1">Precision craft,</span><br />
+          <span class="text-dim" data-i18n="hero.h1.line2">inspected every chair.</span>
+        </h1>
+        <p class="reveal mt-5 md:mt-6 max-w-[520px] text-dim text-base leading-relaxed" data-delay="3" data-i18n="hero.sub">
+          Six barbers. One long bench under a row of brass lamps. A signature cut
+          you can reserve to the minute, with the same hand every time.
+        </p>
+        <div class="reveal mt-7 flex flex-wrap gap-3" data-delay="4">
+          <a class="cta" href="book.html">
+            <span data-i18n="hero.cta.reserve">Reserve a chair</span>
+            <span class="nub" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+          <a class="cta-ghost" href="services.html">
+            <span data-i18n="hero.cta.services">See services</span>
+            <span class="nub" aria-hidden="true">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6 H10 M6 2 L10 6 L6 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+        </div>
+        <div class="reveal mt-9 grid grid-cols-3 gap-6 max-w-[480px] hero-stats" data-delay="5">
+          <div class="hero-stat">
+            <div class="hero-stat-num font-display text-2xl md:text-3xl"><span data-ltr>06</span></div>
+            <div class="hero-stat-label text-faint text-[11px] tracking-[0.18em] uppercase mt-2" data-i18n="hero.stat.barbers">Barbers on rotation</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num font-display text-2xl md:text-3xl"><span data-ltr>28</span><span class="text-dim" data-i18n="hero.stat.wait_unit">m</span></div>
+            <div class="hero-stat-label text-faint text-[11px] tracking-[0.18em] uppercase mt-2" data-i18n="hero.stat.wait">Avg. wait, walk-in</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num font-display text-2xl md:text-3xl"><span data-ltr>2019</span></div>
+            <div class="hero-stat-label text-faint text-[11px] tracking-[0.18em] uppercase mt-2" data-i18n="hero.stat.bench">On this bench</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Glass marquee tile -->
+      <div class="col-span-12 md:col-span-4 reveal" data-delay="3">
+        <div class="bezel">
+          <div class="bezel-core p-5 md:p-6 relative" style="height: clamp(360px, 46vh, 480px);">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[10px] tracking-[0.2em] uppercase text-dim" data-i18n="marquee.reviews">Top reviews</span>
+              <span class="inline-flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase text-faint">
+                <span class="block w-1.5 h-1.5 rounded-full bg-signal" style="box-shadow:0 0 8px #c8e870"></span>
+                <span data-i18n="marquee.live">Live</span>
+              </span>
+            </div>
+            <div id="review-aggregate" class="mb-4"></div>
+            <div class="overflow-hidden h-[calc(100%-9.5rem)] [mask-image:linear-gradient(180deg,transparent_0,black_12%,black_88%,transparent_100%)]">
+              <div id="review-marquee" class="marquee flex flex-col gap-5"></div>
+            </div>
+            <div class="absolute bottom-5 left-5 right-5 md:bottom-6 md:left-6 md:right-6 flex items-end justify-between gap-3 pt-3 border-t hairline">
+              <div>
+                <div class="text-[10px] tracking-[0.2em] uppercase text-faint" data-i18n="marquee.next">Next available</div>
+                <div class="font-display text-base mt-0.5" data-i18n="marquee.today">Today · 4:00 PM</div>
+              </div>
+              <a class="cta-ghost !py-1.5 !px-2.5 text-xs" href="book.html">
+                <span data-i18n="marquee.reserve">Reserve</span>
+                <span class="nub !w-5 !h-5" aria-hidden="true">
+                  <svg width="8" height="8" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MANIFESTO (compact strip) ========== -->
+  <section class="px-6 md:px-12 py-10 md:py-14 border-t hairline">
+    <div class="max-w-[1400px] mx-auto grid grid-cols-12 gap-x-6 gap-y-5 items-baseline">
+      <span class="col-span-12 md:col-span-2 eyebrow reveal self-start" data-i18n="manifesto.eyebrow">The bench, in three lines</span>
+      <p class="col-span-12 md:col-span-3 md:col-start-4 font-display reveal text-base md:text-lg leading-snug" data-delay="1">
+        <span class="text-faint me-2" data-ltr>01</span>
+        <span data-i18n="manifesto.1">The chair you book is the chair you sit in.</span>
+      </p>
+      <p class="col-span-12 md:col-span-3 font-display reveal text-base md:text-lg leading-snug" data-delay="2">
+        <span class="text-faint me-2" data-ltr>02</span>
+        <span data-i18n="manifesto.2">The cut you ask for is the cut you walk out with.</span>
+      </p>
+      <p class="col-span-12 md:col-span-3 font-display reveal text-base md:text-lg leading-snug" data-delay="3">
+        <span class="text-faint me-2" data-ltr>03</span>
+        <span data-i18n="manifesto.3">We don't run late. We run on time, or we don't run at all.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ========== SIGNATURE SERVICES (EDITORIAL LIST) ========== -->
+  <section class="px-6 md:px-12 py-14 md:py-20 border-t hairline">
+    <div class="max-w-[1400px] mx-auto">
+      <div class="flex items-end justify-between gap-6 flex-wrap mb-8 md:mb-10">
+        <div>
+          <span class="eyebrow reveal" data-i18n="svc.title">Signature services</span>
+          <h2 class="font-display reveal mt-4 text-4xl md:text-6xl leading-[0.95]" data-delay="1">
+            <span data-i18n="svc.h2.line1">Four ways to sit down.</span><br/>
+            <span class="text-dim" data-i18n="svc.h2.line2">Eight ways to leave.</span>
+          </h2>
+        </div>
+        <a class="cta-ghost reveal" data-delay="2" href="services.html">
+          <span data-i18n="svc.catalogue">Full catalogue</span>
+          <span class="nub" aria-hidden="true">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+      </div>
+
+      <ul class="service-list reveal" data-delay="1" id="landing-services">
+        <!-- rendered via JS from BP3.SERVICES so SAR prices + Arabic translations + Hair Wash swap stay in sync -->
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========== FEATURED BARBERS ========== -->
+  <section class="px-6 md:px-12 py-14 md:py-20 border-t hairline">
+    <div class="max-w-[1400px] mx-auto">
+      <div class="flex items-end justify-between gap-6 flex-wrap mb-8 md:mb-10">
+        <div>
+          <span class="eyebrow reveal" data-i18n="team.eyebrow">On the bench</span>
+          <h2 class="font-display reveal mt-4 text-4xl md:text-6xl leading-[0.95]" data-delay="1">
+            <span data-i18n="team.h2.line1">Six hands.</span><br/>
+            <span class="text-dim" data-i18n="team.h2.line2">Pick yours.</span>
+          </h2>
+        </div>
+        <a class="cta-ghost reveal" data-delay="2" href="barbers.html">
+          <span data-i18n="team.meet">Meet the bench</span>
+          <span class="nub" aria-hidden="true">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-12 gap-5" id="landing-barbers">
+        <!-- rendered via JS from BP3.BARBERS, shows first 3 -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FINAL CTA STRIP ========== -->
+  <section class="px-6 md:px-12 py-14 md:py-20 border-t hairline">
+    <div class="max-w-[1400px] mx-auto">
+      <div class="bezel reveal">
+        <div class="bezel-core p-8 md:p-14 text-center flex flex-col items-center">
+          <span class="eyebrow" data-i18n="cta.ready">Ready when you are</span>
+          <h2 class="font-display text-4xl md:text-6xl mt-5 leading-[0.95]">
+            <span data-i18n="cta.h2.line1">Book a chair.</span><br/>
+            <span class="text-dim" data-i18n="cta.h2.line2">Lock the minute.</span>
+          </h2>
+          <p class="text-dim mt-5 max-w-[460px] leading-relaxed text-sm md:text-base" data-i18n="cta.sub">
+            Pick your barber, pick your service, pick your slot. The whole thing
+            takes about ninety seconds. We'll see you on the bench.
+          </p>
+          <a class="cta mt-7" href="book.html">
+            <span data-i18n="hero.cta.reserve">Reserve a chair</span>
+            <span class="nub" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="px-6 md:px-12 py-10 border-t hairline">
+    <div class="max-w-[1400px] mx-auto grid grid-cols-12 gap-6">
+      <div class="col-span-12 md:col-span-4">
+        <a class="font-display text-2xl" href="index.html">NORTH<span class="text-faint">&amp;</span>HALE</a>
+        <p class="text-dim text-sm mt-4 max-w-[280px] leading-relaxed" data-i18n="footer.tagline">
+          A six-chair barbershop, kept on time.
+        </p>
+      </div>
+      <div class="col-span-6 md:col-span-3">
+        <div class="text-[10px] tracking-[0.2em] uppercase text-faint" data-i18n="footer.location">The Bench</div>
+        <div class="mt-3 font-display text-base leading-relaxed" data-i18n="footer.address">
+          Centria Mall, Floor 2<br/>
+          Olaya · Riyadh
+        </div>
+      </div>
+      <div class="col-span-6 md:col-span-3">
+        <div class="text-[10px] tracking-[0.2em] uppercase text-faint" data-i18n="footer.hours">Hours</div>
+        <div class="mt-3 font-mono-tag text-sm text-dim space-y-1">
+          <div data-i18n="footer.hours.1">SAT–THU · 11–11</div>
+          <div data-i18n="footer.hours.2">FRI · 3 PM–11 PM</div>
+          <div data-i18n="footer.hours.3">NO LATE FRIDAYS</div>
+        </div>
+      </div>
+      <div class="col-span-12 md:col-span-2 flex md:justify-end">
+        <a class="cta-ghost !py-2 !px-4 !text-xs" href="book.html">
+          <span data-i18n="misc.book">Book</span>
+          <span class="nub !w-6 !h-6" aria-hidden="true">
+            <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+      </div>
+      <div class="col-span-12 mt-12 pt-6 border-t hairline flex flex-wrap justify-between text-[10px] tracking-[0.2em] uppercase text-faint gap-4">
+        <span data-i18n="footer.copy">© 2026 NORTH&amp;HALE BARBERS</span>
+        <span data-i18n="footer.proto.long">PROTOTYPE BUILD · NOT A LIVE STORE</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/data.js?v=3"></script>
+  <script src="assets/i18n.js?v=3"></script>
+  <script src="assets/ui.js?v=3"></script>
+  <script>
+    /* Render landing services + featured barbers from BP3 so SAR + AR stay in sync */
+    (function () {
+      function renderServices() {
+        const ul = document.getElementById('landing-services');
+        if (!ul) return;
+        const featured = ['the-reset', 'signature-cut', 'hot-towel-shave', 'skin-fade', 'beard-sculpt'];
+        const tierKey = { core: 'tier.core', premium: 'tier.premium', signature: 'tier.signature' };
+        ul.innerHTML = featured.map(function (id, i) {
+          const s = BP3.findService(id);
+          if (!s) return '';
+          const n = String(i + 1).padStart(2, '0');
+          const tier = BP3.t(tierKey[s.tier] || 'tier.core');
+          return `<li>
+            <a class="service-row" href="book.html?service=${s.id}">
+              <span class="service-num">${n}</span>
+              <span class="service-tier">${tier}</span>
+              <div class="service-body">
+                <h3 class="font-display service-name">${BP3.L(s.name)}</h3>
+                <p class="service-desc">${BP3.L(s.description)}</p>
+              </div>
+              <span class="service-meta">
+                <span class="service-price" data-ltr>${BP3.formatPrice(s.price)}</span>
+                <span class="service-sep" aria-hidden="true">·</span>
+                <span class="service-duration" data-ltr>${BP3.formatDuration(s.duration)}</span>
+              </span>
+            </a>
+          </li>`;
+        }).join('');
+      }
+
+      function renderBarbers() {
+        const wrap = document.getElementById('landing-barbers');
+        if (!wrap) return;
+        const tones = {
+          amber:  'background: radial-gradient(ellipse 80% 60% at 30% 20%, rgba(232,168,124,0.42), transparent 65%), linear-gradient(140deg, #1a1612 0%, #050505 100%);',
+          cobalt: 'background: radial-gradient(ellipse 80% 60% at 30% 20%, rgba(91,141,239,0.38), transparent 65%), linear-gradient(140deg, #0e121a 0%, #050505 100%);',
+          signal: 'background: radial-gradient(ellipse 80% 60% at 30% 20%, rgba(200,232,112,0.30), transparent 65%), linear-gradient(140deg, #131613 0%, #050505 100%);',
+          mono:   'background: radial-gradient(ellipse 80% 60% at 30% 20%, rgba(255,255,255,0.10), transparent 65%), linear-gradient(140deg, #141414 0%, #050505 100%);'
+        };
+        const bios = {
+          'marcus-hale': { en: 'Trained in Brooklyn, refined in Florence.', ar: 'تدرّب في بروكلين وصقل مهارته في فلورنسا.' },
+          'diego-reyes': { en: 'Hot-towel obsessive. Quiet, ritualistic shaves.', ar: 'مهووس بالمنشفة الساخنة. حلاقات هادئة كالطقوس.' },
+          'tobias-lin':  { en: 'Editorial styling background. Hair as a material.', ar: 'خلفية في التصميم التحريري. يتعامل مع الشعر كمادة.' }
+        };
+        const featured = BP3.BARBERS.slice(0, 3);
+        wrap.innerHTML = featured.map(function (b, i) {
+          const yr = BP3.t('bpg.years');
+          return `<article class="bento-cell col-span-12 md:col-span-4 bezel lift reveal is-visible" data-delay="${i + 1}">
+            <div class="bezel-core p-3">
+              <div class="monogram" style="${tones[b.tone] || tones.mono}">
+                <div class="monogram-letter">${b.letter}</div>
+                <div class="monogram-tag">
+                  <div>
+                    <div class="name">${BP3.L(b.name)}</div>
+                    <div class="role">${BP3.L(b.role)}</div>
+                  </div>
+                  <div class="yr" data-ltr>${b.years} ${yr}</div>
+                </div>
+              </div>
+              <div class="p-5 pb-4">
+                <div class="flex items-center justify-between gap-4">
+                  <p class="text-dim text-[13px] leading-snug max-w-[220px]">${BP3.L(bios[b.id] || b.bio)}</p>
+                  <a class="cta-ghost !py-1.5 !px-2.5 !text-xs" href="book.html?barber=${b.id}">
+                    <span>${BP3.t('misc.book')}</span>
+                    <span class="nub !w-5 !h-5" aria-hidden="true">
+                      <svg width="8" height="8" viewBox="0 0 12 12" fill="none"><path d="M2 10 L10 2 M4 2 H10 V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                  </a>
+                </div>
+                <div class="monogram-rating-bar">${BP3.renderRating(b.rating, b.reviews)}</div>
+              </div>
+            </div>
+          </article>`;
+        }).join('');
+      }
+
+      function renderReviews() {
+        const agg = document.getElementById('review-aggregate');
+        const marq = document.getElementById('review-marquee');
+        if (!agg || !marq || !BP3.REVIEWS) return;
+
+        const totalReviews = 1247;
+        const avg = (BP3.REVIEWS.reduce(function (s, r) { return s + r.rating; }, 0) / BP3.REVIEWS.length);
+        const reviewWord = BP3.t('marquee.agg_count');
+        agg.innerHTML = `
+          <div class="flex items-center gap-3 pb-3 border-b hairline">
+            <span class="stars" style="--fill:${(avg / 5) * 100}%"></span>
+            <span class="font-display text-lg" data-ltr>${avg.toFixed(1)}</span>
+            <span class="text-[11px] text-faint" data-ltr>· ${totalReviews.toLocaleString(BP3.getLang() === 'ar' ? 'ar-SA' : 'en-US')} ${esc(reviewWord)}</span>
+          </div>`;
+
+        const items = BP3.REVIEWS.concat(BP3.REVIEWS); /* duplicate for seamless loop */
+        marq.innerHTML = items.map(function (r) {
+          return `<div class="review-item">
+            <div class="review-quote">${esc(BP3.L(r.quote))}</div>
+            <div class="review-meta">
+              <span class="stars rating-sm" style="--fill:${(r.rating / 5) * 100}%"></span>
+              <span class="review-author">${esc(BP3.L(r.author))}</span>
+            </div>
+          </div>`;
+        }).join('');
+      }
+
+      function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
+      function renderAll() { renderServices(); renderBarbers(); renderReviews(); }
+      if (document.readyState !== 'loading') renderAll();
+      else document.addEventListener('DOMContentLoaded', renderAll);
+      document.addEventListener('bp3:langchange', renderAll);
+    })();
+  </script>
+</body>
+</html>
