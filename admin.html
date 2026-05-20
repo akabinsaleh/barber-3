@@ -499,8 +499,212 @@
       .admin-main { padding: 1.25rem 1rem 2rem; }
       .admin-topbar h1 { font-size: 1.3rem; }
       .admin-search { max-width: none; }
-      .kpi-grid { grid-template-columns: 1fr; }
     }
+
+    /* Card-list mode hidden by default; mobile breakpoint reveals it */
+    .card-list, .card-list-foot { display: none; }
+
+    /* ============================================================
+       MOBILE RESCUE (≤768px) — Orders becomes touch-friendly
+       ============================================================ */
+    @media (max-width: 768px) {
+      /* --- Sidebar strip polish --- */
+      .admin-sidebar { padding: 0.6rem 0.85rem; gap: 0.6rem; }
+      .admin-brand .ver { display: none; }
+      .admin-brand .mark { font-size: 0.85rem; }
+      .admin-brand .mark::before { width: 0.4rem; height: 0.4rem; }
+      .admin-sidebar .admin-nav a { padding: 0.35rem 0.55rem; font-size: 12px; gap: 0.45rem; }
+      .admin-sidebar .admin-nav a .count { font-size: 10px; padding: 0.05rem 0.35rem; }
+      /* Active pip becomes a bottom underline (vertical bar makes no sense in a horizontal strip) */
+      .admin-sidebar .admin-nav a.active::before {
+        left: 0.55rem; right: 0.55rem; top: auto; bottom: -0.55rem;
+        width: auto; height: 2px; transform: none; border-radius: 0;
+      }
+      html[dir="rtl"] .admin-sidebar .admin-nav a.active::before {
+        left: 0.55rem; right: 0.55rem;
+      }
+
+      /* --- Topbar: two clean rows instead of awkward wrap --- */
+      .admin-topbar {
+        gap: 0.75rem;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+      }
+      .admin-topbar > div:first-child { flex: 1 1 100%; }
+      .admin-topbar h1 { font-size: 1.25rem; }
+      .admin-search { flex: 1 1 auto; min-width: 0; max-width: none; margin-left: 0; }
+      html[dir="rtl"] .admin-search { margin-right: 0; }
+      .admin-action { padding: 0.5rem 0.75rem; font-size: 12px; flex-shrink: 0; }
+
+      /* --- KPIs: 2x2 grid, tighter --- */
+      .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.6rem;
+        margin-bottom: 1.1rem;
+      }
+      .kpi { padding: 0.7rem 0.8rem 0.8rem; gap: 0.35rem; border-radius: 0.55rem; }
+      .kpi .label { font-size: 9px; letter-spacing: 0.16em; }
+      .kpi .value { font-size: 1.25rem; }
+      .kpi .delta { font-size: 10px; }
+
+      /* --- Filter row: chips on a scrollable strip, utilities in kebab --- */
+      .filter-row {
+        gap: 0.5rem;
+        padding-bottom: 0.75rem;
+        margin-bottom: 0.85rem;
+        flex-wrap: nowrap;
+        align-items: center;
+      }
+      .filter-chips {
+        display: flex;
+        gap: 0.5rem;
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0.15rem;
+      }
+      .filter-chips::-webkit-scrollbar { display: none; }
+      .filter-chips .filter-tab { flex-shrink: 0; }
+      .filter-spacer { display: none; }
+
+      /* --- Hide the desktop table, show the card list --- */
+      .table-wrap { display: none; }
+      .card-list, .card-list-foot { display: block; }
+      .card-list { display: flex; flex-direction: column; gap: 0.6rem; }
+      .card-list-foot {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 0.85rem 0.25rem 0.25rem;
+        font-size: 11px;
+        color: #56544f;
+        letter-spacing: 0.06em;
+      }
+    }
+
+    /* ============================================================
+       KEBAB MENU (uses native <details>) — visible at any width
+       ============================================================ */
+    .admin-more {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .admin-more > summary {
+      list-style: none;
+      width: 2.1rem; height: 2.1rem;
+      border-radius: 0.5rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #a7a59f;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .admin-more > summary::-webkit-details-marker { display: none; }
+    .admin-more > summary:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
+      color: #f5f4f1;
+    }
+    .admin-more[open] > summary {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.14);
+      color: #f5f4f1;
+    }
+    .admin-more-menu {
+      position: absolute;
+      top: calc(100% + 0.35rem);
+      right: 0;
+      min-width: 12rem;
+      background: #0e0e0e;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 0.55rem;
+      padding: 0.3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      z-index: 30;
+      box-shadow: 0 14px 32px -10px rgba(0, 0, 0, 0.7);
+    }
+    html[dir="rtl"] .admin-more-menu { right: auto; left: 0; }
+    .admin-more-item {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      width: 100%;
+      padding: 0.55rem 0.65rem;
+      background: transparent;
+      border: none;
+      color: #d6d4cf;
+      font: inherit;
+      font-size: 12.5px;
+      text-align: left;
+      border-radius: 0.4rem;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    html[dir="rtl"] .admin-more-item { text-align: right; }
+    .admin-more-item:hover { background: rgba(255, 255, 255, 0.05); color: #f5f4f1; }
+    .admin-more-item.danger:hover { color: #ff8a8a; }
+
+    /* ============================================================
+       ORDER CARDS (mobile only — desktop hides via .card-list rule above)
+       ============================================================ */
+    .order-card {
+      background: #0d0d0d;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 0.7rem;
+      padding: 0.85rem 0.95rem 0.95rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .order-card.is-removing { opacity: 0; transform: translateY(-3px); pointer-events: none; }
+    .order-card-top {
+      display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+    }
+    .order-card-meta {
+      display: flex; flex-direction: column; gap: 0.2rem;
+      font-size: 11px; color: #56544f; letter-spacing: 0.06em;
+    }
+    .order-card-when {
+      font-family: 'Geist', monospace;
+      font-feature-settings: 'tnum' 1;
+      color: #d6d4cf;
+      letter-spacing: 0.02em;
+      font-size: 12px;
+    }
+    .order-card-name {
+      color: #f5f4f1;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -0.005em;
+    }
+    .order-card-svc {
+      font-size: 12.5px;
+      color: #a7a59f;
+      line-height: 1.4;
+    }
+    .order-card-svc .more {
+      color: #5b8def;
+      font-size: 11px;
+      margin-left: 0.35rem;
+    }
+    html[dir="rtl"] .order-card-svc .more { margin-left: 0; margin-right: 0.35rem; }
+    .order-card-bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+      padding-top: 0.7rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .order-card-total {
+      font-family: 'Geist', monospace;
+      font-feature-settings: 'tnum' 1;
+      color: #f5f4f1;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .order-card .row-actions { gap: 0.4rem; }
   </style>
 </head>
 <body class="admin-body">
@@ -638,39 +842,48 @@
 
       <!-- Filter row -->
       <section class="filter-row">
-        <button class="filter-tab active" data-filter="all">
-          <span data-en="All" data-ar="الكل">All</span>
-          <span class="pip-count" id="cnt-all">0</span>
-        </button>
-        <button class="filter-tab" data-filter="today">
-          <span class="pip-dot" style="background:#c8e870"></span>
-          <span data-en="Today" data-ar="اليوم">Today</span>
-          <span class="pip-count" id="cnt-today">0</span>
-        </button>
-        <button class="filter-tab" data-filter="upcoming">
-          <span class="pip-dot" style="background:#5b8def"></span>
-          <span data-en="Upcoming" data-ar="قادم">Upcoming</span>
-          <span class="pip-count" id="cnt-upcoming">0</span>
-        </button>
-        <button class="filter-tab" data-filter="done">
-          <span class="pip-dot" style="background:#56544f"></span>
-          <span data-en="Done" data-ar="منتهي">Done</span>
-          <span class="pip-count" id="cnt-done">0</span>
-        </button>
+        <div class="filter-chips">
+          <button class="filter-tab active" data-filter="all">
+            <span data-en="All" data-ar="الكل">All</span>
+            <span class="pip-count" id="cnt-all">0</span>
+          </button>
+          <button class="filter-tab" data-filter="today">
+            <span class="pip-dot" style="background:#c8e870"></span>
+            <span data-en="Today" data-ar="اليوم">Today</span>
+            <span class="pip-count" id="cnt-today">0</span>
+          </button>
+          <button class="filter-tab" data-filter="upcoming">
+            <span class="pip-dot" style="background:#5b8def"></span>
+            <span data-en="Upcoming" data-ar="قادم">Upcoming</span>
+            <span class="pip-count" id="cnt-upcoming">0</span>
+          </button>
+          <button class="filter-tab" data-filter="done">
+            <span class="pip-dot" style="background:#56544f"></span>
+            <span data-en="Done" data-ar="منتهي">Done</span>
+            <span class="pip-count" id="cnt-done">0</span>
+          </button>
+        </div>
 
         <span class="filter-spacer"></span>
 
-        <button id="reseed-btn" type="button" class="admin-action-ghost">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6 A4 4 0 1 0 6 2 M2 2 V6 H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span data-en="Re-seed mocks" data-ar="إعادة تعبئة">Re-seed mocks</span>
-        </button>
-        <button id="clear-btn" type="button" class="admin-action-ghost admin-action-danger">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3 L9 9 M9 3 L3 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          <span data-en="Clear all" data-ar="حذف الكل">Clear all</span>
-        </button>
+        <details class="admin-more" id="admin-more">
+          <summary aria-label="More actions">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="3" cy="8" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="13" cy="8" r="1.3" fill="currentColor"/></svg>
+          </summary>
+          <div class="admin-more-menu">
+            <button id="reseed-btn" type="button" class="admin-more-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6 A4 4 0 1 0 6 2 M2 2 V6 H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span data-en="Re-seed mocks" data-ar="إعادة تعبئة">Re-seed mocks</span>
+            </button>
+            <button id="clear-btn" type="button" class="admin-more-item danger">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3 L9 9 M9 3 L3 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span data-en="Clear all" data-ar="حذف الكل">Clear all</span>
+            </button>
+          </div>
+        </details>
       </section>
 
-      <!-- Table -->
+      <!-- Table (desktop / tablet) -->
       <section class="table-wrap">
         <div class="table-scroll">
           <table class="admin-table">
@@ -691,6 +904,10 @@
         </div>
         <div class="table-foot" id="table-foot"></div>
       </section>
+
+      <!-- Card list (mobile) -->
+      <section class="card-list" id="orders-cards"></section>
+      <div class="card-list-foot" id="cards-foot"></div>
     </main>
 
   </div>
@@ -847,6 +1064,8 @@
         const lang = BP3.getLang();
         const tbody = document.getElementById('orders-body');
         const foot = document.getElementById('table-foot');
+        const cardWrap = document.getElementById('orders-cards');
+        const cardFoot = document.getElementById('cards-foot');
 
         // Count by status across all orders (not just filtered)
         const counts = { all: orders.length, today: 0, upcoming: 0, done: 0 };
@@ -885,13 +1104,18 @@
         });
 
         if (!filtered.length) {
+          const emptyTitle = lang === 'ar' ? 'لا توجد طلبات' : 'No orders';
+          const emptySub = lang === 'ar' ? 'جرّب تغيير الفلتر أو إعادة تعبئة المثال.' : 'Try changing the filter or re-seed the mocks.';
           tbody.innerHTML = `<tr><td colspan="8">
             <div class="empty">
-              <strong>${esc(lang === 'ar' ? 'لا توجد طلبات' : 'No orders')}</strong>
-              ${esc(lang === 'ar' ? 'جرّب تغيير الفلتر أو إعادة تعبئة المثال.' : 'Try changing the filter or re-seed the mocks.')}
+              <strong>${esc(emptyTitle)}</strong>
+              ${esc(emptySub)}
             </div>
           </td></tr>`;
-          foot.innerHTML = `<span>${esc(lang === 'ar' ? '٠ نتائج' : '0 results')}</span><span>${esc(lang === 'ar' ? `من أصل ${counts.all}` : `of ${counts.all} total`)}</span>`;
+          cardWrap.innerHTML = `<div class="empty"><strong>${esc(emptyTitle)}</strong>${esc(emptySub)}</div>`;
+          const footHtml = `<span>${esc(lang === 'ar' ? '٠ نتائج' : '0 results')}</span><span>${esc(lang === 'ar' ? `من أصل ${counts.all}` : `of ${counts.all} total`)}</span>`;
+          foot.innerHTML = footHtml;
+          cardFoot.innerHTML = footHtml;
           return;
         }
 
@@ -941,14 +1165,58 @@
           </tr>`;
         }).join('');
 
-        foot.innerHTML = lang === 'ar'
+        const footHtml = lang === 'ar'
           ? `<span>تعرض ${filtered.length} من ${counts.all}</span><span>${query ? `للبحث "${esc(query)}"` : (activeFilter === 'all' ? '' : 'مفلتر')}</span>`
           : `<span>Showing ${filtered.length} of ${counts.all}</span><span>${query ? `for "${esc(query)}"` : (activeFilter === 'all' ? '' : 'filtered')}</span>`;
+        foot.innerHTML = footHtml;
+        cardFoot.innerHTML = footHtml;
 
-        tbody.querySelectorAll('[data-delete]').forEach(function (btn) {
+        cardWrap.innerHTML = filtered.map(function (o) {
+          const b = BP3.findBarber(o.barberId);
+          const svcs = servicesOf(o);
+          const status = statusOf(o);
+          const when = (o.dateIso && o.hour != null)
+            ? `${fmtDate(o.dateIso)} · ${BP3.formatTime12(o.hour, 0)}`
+            : '—';
+          const firstName = svcs[0] ? BP3.L(svcs[0].name) : '—';
+          const moreCount = Math.max(0, svcs.length - 1);
+          const moreHtml = moreCount ? `<span class="more">+${moreCount}</span>` : '';
+          const barberName = b ? BP3.L(b.name) : '—';
+          const withWord = lang === 'ar' ? 'مع' : 'with';
+          return `<article class="order-card" data-code="${esc(o.code)}">
+            <div class="order-card-top">
+              <div class="order-card-meta">
+                <span class="code-chip">${esc(o.code)}</span>
+              </div>
+              <span class="status-pill ${status}">
+                <span class="pill-dot"></span>
+                ${esc(STATUS_LABEL[status][lang] || STATUS_LABEL[status].en)}
+              </span>
+            </div>
+            <div>
+              <div class="order-card-when" data-ltr>${esc(when)}</div>
+              <div class="order-card-name" style="margin-top:0.45rem">${esc(nameFor(o))}</div>
+              <div class="order-card-svc">${esc(firstName)}${moreHtml} · ${esc(withWord)} ${esc(barberName)}</div>
+              <div class="cust-phone" style="margin-top:0.25rem">${esc(o.phone || '')}</div>
+            </div>
+            <div class="order-card-bar">
+              <span class="order-card-total" data-ltr>${svcs.length ? BP3.formatPrice(orderTotal(o)) : '—'}</span>
+              <div class="row-actions">
+                <button class="icon-btn" data-view="${esc(o.code)}" aria-label="${esc(lang === 'ar' ? 'عرض' : 'View')}">
+                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M1.5 8 C3.5 4 12.5 4 14.5 8 C12.5 12 3.5 12 1.5 8 Z" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
+                </button>
+                <button class="icon-btn danger" data-delete="${esc(o.code)}" aria-label="${esc(lang === 'ar' ? 'حذف' : 'Delete')}">
+                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 4.5 H13 M5.5 4.5 V3 H10.5 V4.5 M5 4.5 L5.5 13 H10.5 L11 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </div>
+          </article>`;
+        }).join('');
+
+        document.querySelectorAll('[data-delete]').forEach(function (btn) {
           btn.addEventListener('click', function () { removeOrder(btn.getAttribute('data-delete')); });
         });
-        tbody.querySelectorAll('[data-view]').forEach(function (btn) {
+        document.querySelectorAll('[data-view]').forEach(function (btn) {
           btn.addEventListener('click', function () {
             const code = btn.getAttribute('data-view');
             const o = orders.find(function (x) { return x.code === code; });
@@ -960,8 +1228,8 @@
       }
 
       function removeOrder(code) {
-        const tr = document.querySelector(`tr[data-code="${cssEscape(code)}"]`);
-        if (tr) tr.classList.add('is-removing');
+        const sel = `[data-code="${cssEscape(code)}"]`;
+        document.querySelectorAll(sel).forEach(function (el) { el.classList.add('is-removing'); });
         setTimeout(function () {
           orders = orders.filter(function (o) { return o.code !== code; });
           saveOrders(orders);
@@ -993,8 +1261,13 @@
       }
 
       function start() {
-        document.getElementById('clear-btn').addEventListener('click', clearAll);
-        document.getElementById('reseed-btn').addEventListener('click', reseed);
+        const more = document.getElementById('admin-more');
+        function closeMore() { if (more) more.open = false; }
+        document.getElementById('clear-btn').addEventListener('click', function () { closeMore(); clearAll(); });
+        document.getElementById('reseed-btn').addEventListener('click', function () { closeMore(); reseed(); });
+        document.addEventListener('click', function (e) {
+          if (more && more.open && !more.contains(e.target)) closeMore();
+        });
         document.getElementById('q').addEventListener('input', function (e) {
           query = e.target.value;
           render();
