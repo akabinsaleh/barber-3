@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Admin · Orders — NORTH&amp;HALE</title>
   <meta name="theme-color" content="#070707" />
+  <script>
+    /* Admin dashboard defaults to English (site default is Arabic).
+       An explicit user choice under bp3.langChosen still wins. */
+    window.BP3_DEFAULT_LANG = 'en';
+  </script>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23f5f4f1'/><text x='16' y='22' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='18' fill='%23050505'>N</text></svg>" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="assets/styles.css" />
@@ -912,8 +917,8 @@
 
   </div>
 
-  <script src="assets/data.js"></script>
-  <script src="assets/i18n.js"></script>
+  <script src="assets/data.js?v=5"></script>
+  <script src="assets/i18n.js?v=5"></script>
   <script>
     /* ============================================================
        Admin Dashboard — Orders

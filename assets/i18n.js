@@ -1,6 +1,8 @@
 /* ============================================================
    BARBER PROTOTYPE 3 — i18n (EN / AR)
-   - Reads/writes lang in localStorage under bp3.lang
+   - Default language: Arabic. Only remembers a choice when the
+     user clicks the language toggle, stored under bp3.langChosen.
+     The legacy bp3.lang auto-save key is intentionally ignored.
    - Sets <html lang> + <html dir> + body class lang-ar
    - Replaces text on elements with data-i18n="key"
    - Replaces attributes via data-i18n-attr="placeholder:key,title:key"
@@ -193,14 +195,24 @@
     'misc.taken_label':     { en: 'TAKEN',            ar: 'محجوز' }
   };
 
+  function pageDefaultLang() {
+    /* A page can opt into a different default by setting window.BP3_DEFAULT_LANG
+       BEFORE this script loads. The admin dashboard does that to default to English. */
+    return (typeof window !== 'undefined' && window.BP3_DEFAULT_LANG === 'en') ? 'en' : 'ar';
+  }
+
   function getLang() {
-    try { return (localStorage.getItem('bp3.lang') === 'ar') ? 'ar' : 'en'; }
-    catch (e) { return 'en'; }
+    try {
+      /* Only an explicit user choice overrides the page default. */
+      const chosen = localStorage.getItem('bp3.langChosen');
+      if (chosen === 'en' || chosen === 'ar') return chosen;
+      return pageDefaultLang();
+    } catch (e) { return pageDefaultLang(); }
   }
 
   function setLang(lang) {
     if (lang !== 'en' && lang !== 'ar') return;
-    try { localStorage.setItem('bp3.lang', lang); } catch (e) {}
+    try { localStorage.setItem('bp3.langChosen', lang); } catch (e) {}
     applyLang();
     document.dispatchEvent(new CustomEvent('bp3:langchange', { detail: { lang } }));
   }

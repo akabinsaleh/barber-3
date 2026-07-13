@@ -455,23 +455,36 @@ body {
 
 /* ============================================================
    SCROLL-IN REVEAL
+   GPU-only: transform + opacity. No layout, no paint, no jank.
    ============================================================ */
 .reveal {
   opacity: 0;
-  transition: opacity 0.5s var(--easing-out);
+  transform: translate3d(0, 22px, 0);
+  transition:
+    opacity 0.7s var(--easing-out),
+    transform 0.8s var(--easing-out);
+  will-change: opacity, transform;
+  backface-visibility: hidden;
 }
 
 .reveal.is-visible {
   opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Drop the will-change hint after the animation finishes so the
+   compositor can reclaim the layer — keeps long pages light. */
+.reveal.is-settled {
+  will-change: auto;
 }
 
 /* Modest stagger only — keep the eye on the content, not the choreography */
-.reveal[data-delay="1"] { transition-delay: 40ms; }
-.reveal[data-delay="2"] { transition-delay: 80ms; }
-.reveal[data-delay="3"] { transition-delay: 120ms; }
-.reveal[data-delay="4"] { transition-delay: 160ms; }
-.reveal[data-delay="5"] { transition-delay: 200ms; }
-.reveal[data-delay="6"] { transition-delay: 240ms; }
+.reveal[data-delay="1"] { transition-delay: 60ms; }
+.reveal[data-delay="2"] { transition-delay: 120ms; }
+.reveal[data-delay="3"] { transition-delay: 180ms; }
+.reveal[data-delay="4"] { transition-delay: 240ms; }
+.reveal[data-delay="5"] { transition-delay: 300ms; }
+.reveal[data-delay="6"] { transition-delay: 360ms; }
 
 /* ============================================================
    MONOGRAM PORTRAIT (SVG-based barber avatars)
@@ -1439,7 +1452,10 @@ html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3 {
   font-family: 'Tajawal', ui-sans-serif, sans-serif;
   font-weight: 800;
   letter-spacing: -0.015em;
-  line-height: 1.05;
+  /* Arabic descenders (ج ح خ ي's dot) get clipped by tight leading;
+     force room by overriding Tailwind's leading-[0.92]/leading-[0.95] on
+     display headings. */
+  line-height: 1.15 !important;
 }
 
 .lang-ar .monogram-tag .name,

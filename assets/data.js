@@ -238,9 +238,17 @@
   ];
 
   /* ---------- Language-aware helpers ---------- */
+  function pageDefaultLang() {
+    return (typeof window !== 'undefined' && window.BP3_DEFAULT_LANG === 'en') ? 'en' : 'ar';
+  }
   function getLang() {
-    try { return (localStorage.getItem('bp3.lang') === 'ar') ? 'ar' : 'en'; }
-    catch (e) { return 'en'; }
+    try {
+      /* Arabic is the default site-wide; the admin page opts into English via
+         window.BP3_DEFAULT_LANG. An explicit user choice under bp3.langChosen wins. */
+      const chosen = localStorage.getItem('bp3.langChosen');
+      if (chosen === 'en' || chosen === 'ar') return chosen;
+      return pageDefaultLang();
+    } catch (e) { return pageDefaultLang(); }
   }
 
   function L(value) {

@@ -52,19 +52,42 @@
   function initReveal() {
     const els = document.querySelectorAll('.reveal');
     if (!els.length) return;
-    if (!('IntersectionObserver' in window)) {
-      els.forEach(function (el) { el.classList.add('is-visible'); });
+
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || !('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('is-visible', 'is-settled'); });
       return;
     }
+
+    // Fire slightly *before* the element fully enters view so the motion
+    // feels anticipatory, not late. Two thresholds give the observer a chance
+    // to catch fast scrolls without doing any work on the scroll thread.
     const io = new IntersectionObserver(function (entries) {
+      // Batch DOM writes in a single frame to avoid layout thrash on long pages.
+      const toReveal = [];
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
+          toReveal.push(entry.target);
           io.unobserve(entry.target);
         }
       });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      if (!toReveal.length) return;
+      requestAnimationFrame(function () {
+        toReveal.forEach(function (el) { el.classList.add('is-visible'); });
+      });
+    }, { rootMargin: '0px 0px -5% 0px', threshold: [0, 0.05] });
+
     els.forEach(function (el) { io.observe(el); });
+
+    // After each element finishes transitioning, drop will-change so the
+    // browser can release its compositor layer. Keeps memory + paint cheap
+    // on long scroll pages.
+    document.addEventListener('transitionend', function (e) {
+      const t = e.target;
+      if (t && t.classList && t.classList.contains('reveal') && t.classList.contains('is-visible')) {
+        t.classList.add('is-settled');
+      }
+    }, { passive: true });
   }
 
   function highlightActiveNav() {
